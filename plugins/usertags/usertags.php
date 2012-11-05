@@ -154,6 +154,8 @@ class User_Tags{
 	    if (isset($_REQUEST['user_assigned'])) {
 	    	/* Request passes all checks; update the post's metadata */
 	        update_post_meta($post_id, 'user_tags', $_REQUEST['user_assigned']);
+	    } else{
+	    	delete_post_meta($post_id, 'user_tags' );
 	    }
 	}
 }
