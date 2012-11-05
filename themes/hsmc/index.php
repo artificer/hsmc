@@ -9,8 +9,8 @@
  * Learn more: http://codex.wordpress.org/Template_Hierarchy
  *
  * @package WordPress
- * @subpackage Actor
- * @since Acotr 0.1
+ * @subpackage HSMC
+ * @since HSMC 0.1
  */
 
 get_header(); ?>

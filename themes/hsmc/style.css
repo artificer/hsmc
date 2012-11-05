@@ -105,65 +105,6 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
-header, footer{
-	margin: 0 auto;
-	width: 1008px;
-}
-
-div[role="main"]{
-	margin: 0 auto;
-	width: 1018px;
-}
-
-.front-widget-area .widget{
-	float: left;
-	margin: 10px 5px;
-	width: 326px;
-}
-
-
-/*
- * YouTube Channel Widget
- */
-.front-widget-area .widget_youtubechannelgallery_widget{
-	width: 652px;
-}
-
-.ytchagallery > li{
-	width: 100px;
-}
-
-/*
- * Tweets Widget
- */
-.tweets{
-	list-style: none outside;
-	padding: 0;
-}
-
-.tweets li{
- 	border-bottom: 1px #ccc solid;
- 	padding: 0.5em 0; 
-}
-
-/*
- * Flexible Posts Widget
- */
-.dpe-flexible-posts{
-	list-style: none outside;
-	padding: 0;
-}
-.dpe-flexible-posts li{
-	border-bottom: 1px #ccc solid;
- 	padding: 0.5em 0;
-}
-.dpe-flexible-posts .wp-post-image{
-	float: left;
-}
-
-.dpe-flexible-posts .wp-post-image + .hentry-wrap{
-	margin-left: 160px;	
-}
 
 /* ==========================================================================
    Helper classes

@@ -137,7 +137,7 @@ class User_Tags{
 
 	    /* check whether anything should be done */
 	    // $_POST += array("{$slug}_edit_nonce" => get_current_theme());
-	    if ( $slug != $_REQUEST['post_type'] ) {
+	    if ( !isset($_REQUEST['post_type']) || $slug != $_REQUEST['post_type'] ) {
 	        return;
 	    }
 		
