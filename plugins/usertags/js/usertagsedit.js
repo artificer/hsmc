@@ -12,6 +12,13 @@
             cursor: "move"
         });
 
+        $( "li", $usersAssigned ).draggable({
+            revert: "invalid", // when not dropped, the item will revert back to its initial position
+            containment: "#userTags",
+            helper: "clone",
+            cursor: "move"
+        });
+
           // let the trash be droppable, accepting the gallery items
         $usersAssigned.droppable({
             accept: "#usersAvailable li",
@@ -33,16 +40,20 @@
         var user_input = '<input type="hidden" name="user_assigned[]" class="user-tags-input"/>';
         function deleteUser($item){
         	$item.fadeOut(function() {
-        		$item.appendTo($usersAssigned).fadeIn(function(){
+                $item.appendTo($usersAssigned).fadeIn(function(){
 
-        		})
-        	}).append($(user_input).val($item.data('userid')));
-        	// }).append($(user_input).val('{"id":"'+$item.data('userid')+'","username":"'+ $item.data('username')+'"}'))
+                })
+            }).append($(user_input).val($item.data('userid')));
+            // }).append($(user_input).val('{"id":"'+$item.data('userid')+'","username":"'+ $item.data('username')+'"}'))
 
         }
 
-        function recycleUser(draggable){
-
+        function recycleUser($item){
+            $item.fadeOut(function() {
+        		$item.detach()
+                    .appendTo($usersAvail)
+                    .fadeIn(function(){});
+        	}).find('.user-tags-input').remove();
         }
 
     });
