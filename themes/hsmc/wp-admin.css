@@ -32,16 +32,34 @@
 	padding: 0;
 }
 
-.user-tags-available{
+.user-tags-available, .user-tags-assigned{
 	float: left;
-}
-
-.user-tags-assigned{
-	float: right;
+	margin-right: 1em;
 }
 
 .user-available,
 .user-assigned{
-	min-width: 200px;
+	background-color: white;
+	border: 1px solid #DFDFDF;
 	min-height: 100px;
+	min-width: 240px;
+	/*padding: 6px 4px 8px 4px;*/
+	/*color: #333;*/
+	-webkit-border-radius: 3px;
+	   -moz-border-radius: 3px;
+	        border-radius: 3px;
+
+}
+
+.ui-draggable{
+	cursor: move;
+}
+.user-tag{
+	line-height: 2.5em;
+	border-bottom: 1px solid #DFDFDF;
+	padding: 0 6px;
+	margin: 0;
+}
+.user-tags-description{
+	margin: 49px;
 }

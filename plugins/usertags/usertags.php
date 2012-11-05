@@ -100,7 +100,7 @@ class User_Tags{
 	  			<ul class="plain-list user-available" id="usersAvailable">
 	  			<?php foreach ($avail_users as $user): ?>
 
-	  				<li data-username="<?php echo esc_attr($user->user_login)?>" data-userid="<?php echo esc_attr($user->ID)?>">
+	  				<li class="user-tag" data-username="<?php echo esc_attr($user->user_login)?>" data-userid="<?php echo esc_attr($user->ID)?>">
 	  					<?php echo $user->display_name; ?>
 	  				</li>
 
@@ -111,17 +111,17 @@ class User_Tags{
 	  			<h4>Assigned Users</h4>
 	  			<ul class="plain-list user-assigned" id="usersAssigned" >
   				<?php foreach ($assigned_users as $user): ?>
-	  				<li>
+	  				<li class="user-tag" data-username="<?php echo esc_attr($user->user_login)?>" data-userid="<?php echo esc_attr($user->ID)?>">
 	  					<?php echo $user->display_name ?>
-	  					<input type="hidden" name="user_assigned[]" value="" class="user-tags-input" value='<?php echo $user->ID?>'/>
+	  					<input type="hidden" name="user_assigned[]" value="" class="user-tags-input" value='<?php echo esc_attr($user->ID)?>'/>
 	  				</li>
 	  			<?php endforeach; ?>	
 	  			</ul>
 	  		</div>
+	  		<p class="user-tags-description">
+	  			Drag users from <em>Available Users</em> to <em>Assigned Users</em> in order to associate them with this <?php echo $labels->singular_name ?>
+	  		</p>
   		</div>
-  		<p>
-  			Add users to the <em>Assigned Users</em> list in order to associate them with this <?php echo $labels->singular_name ?>
-  		</p>
   		<?php wp_nonce_field(get_current_theme(),'user_tags_nonce'); ?>
   		<?php
 	}
