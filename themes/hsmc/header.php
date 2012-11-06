@@ -59,6 +59,8 @@
 
 <body <?php body_class(); ?>>
 	<header>
-		<h1><?php bloginfo('name', 'Display')?></h1>
-		<?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_class' => 'nav-menu' ) ); ?>
+		<div class="inner">
+			<h1><?php bloginfo('name', 'Display')?></h1>
+			<?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_class' => 'nav-menu' ) ); ?>
+		</div>
 	</header>	

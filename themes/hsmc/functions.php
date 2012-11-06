@@ -118,9 +118,9 @@ add_action( 'init', 'create_post_type' );
 
 function my_class_names($classes) {
 	// add 'class-name' to the $classes array
-	/* if(is_page('portfolio') || is_post_type_archive('sig_portfolio'))
+	 // if(is_page('portfolio') || is_post_type_archive('sig_portfolio'))
 		// $classes[] = 'folio';
-	*/	
+		
 	// return the $classes array
 	return $classes;
 }
@@ -143,7 +143,11 @@ function enqueue_front_scriptstyles(){
     wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js', false, false, true);
 	wp_enqueue_script('plugins', get_bloginfo('template_url').'/js/plugins.js', array('jquery'), false, true);
 	
-	wp_enqueue_script('main', get_bloginfo('template_url').'/js/main.js', array('plugins'), false, true);
+	if (is_front_page())
+		wp_enqueue_script('main', get_bloginfo('template_url').'/js/main.js', array('plugins', 'jquery-ui-core', 'jquery-ui-widget'), false, true);
+	else
+		wp_enqueue_script('main', get_bloginfo('template_url').'/js/main.js', array('plugins'), false, true);
+
 }
 add_action('wp_enqueue_scripts', 'enqueue_front_scriptstyles');
 
@@ -179,7 +183,7 @@ function hsmc_user_profile($user) {
 	    		<th><label for="userpic">Profile Image</label></th>
 	    		<td>
 	    			<input id="userpic" type="hidden" name="userpic" value="<?php echo esc_url($userpic_url);?>" />
-	    			<input type="button" class="button" value="<?php _e( 'Upload Image', 'hsmc' ); ?>"/>
+	    			<input type="button" class="button userpic-upload" value="<?php _e( 'Upload Image', 'hsmc' ); ?>"/>
 	    			<?php if ( '' != $userpic_url): ?>
 						<input name="submit" id="userpicRemove" type="submit" class="button" value="<?php _e('Remove Image', 'hsmc'); ?>" />
 					<?php endif; ?>

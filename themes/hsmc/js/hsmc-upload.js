@@ -1,5 +1,5 @@
 jQuery(document).ready(function($) {
-	$('#userpic').click(function() {
+	$('.userpic-upload').click(function() {
 		tb_show('Upload Profile Picture', 'media-upload.php?referer=user-edit&type=image&TB_iframe=true&post_id=0', false);
 		return false;
 	});

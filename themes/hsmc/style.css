@@ -105,6 +105,49 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
+.inner{
+    width: 960px;
+    margin: 0 auto;
+}
+
+
+/* ===================================================
+   Homepage slider
+   Author: Milos (Citrus Mist);
+   =================================================== */
+
+
+.slider{
+    position: relative;
+    /*width: 100%;*/
+    /*overflow-x: hidden;*/
+}
+
+.slide{
+    position: absolute;
+    left: 9999px;
+    width: 320px;
+}
+
+.slide h3{
+    text-align: center;
+}
+
+.slide.arrive{
+    -webkit-transition: left 1s ease-out 0.3s;
+       -moz-transition: left 1s ease-out 0.3s;
+         -o-transition: left 1s ease-out 0.3s;
+            transition: left 1s ease-out 0.3s;
+}
+
+.slide > img{
+    width: 100%;
+}
+
+.slide-caption{
+    display: none;
+}
+
 
 /* ==========================================================================
    Helper classes
@@ -207,20 +250,6 @@ textarea {
     *zoom: 1;
 }
 
-/* ==========================================================================
-   EXAMPLE Media Queries for Responsive Design.
-   Theses examples override the primary ('mobile first') styles.
-   Modify as content requires.
-   ========================================================================== */
-
-@media only screen and (min-width: 35em) {
-    /* Style adjustments for viewports that meet the condition */
-}
-
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
-       only screen and (min-resolution: 144dpi) {
-    /* Style adjustments for high resolution devices */
-}
 
 /* ==========================================================================
    Print styles.

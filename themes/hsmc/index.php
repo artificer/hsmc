@@ -14,6 +14,37 @@
  */
 
 get_header(); ?>
+<div class="slider">
+	<?php
+		$docs = get_users(array(
+			'role' => 'doctor'
+		));
+		$mids = get_users(array(
+			'role' => 'midwife'
+		));
 
+		$staff = array_merge($docs, $mids);
+		shuffle($staff);
+		foreach ($staff as $clinician):
+			$data = get_user_meta($clinician->ID);
+			$role = array_keys(unserialize($data['wp_capabilities'][0]));
+			Debug_Bar_Extender::instance()->trace_var($data);
+			Debug_Bar_Extender::instance()->trace_var($role);
+	?>
+	<div class="slide">
+		<h3><?php echo $clinician->display_name ?></h3>
+		<img src="<?php echo esc_attr($data['userpic'][0])?>" alt="Portriat of <?php echo esc_attr($clinician->display_name)?>"/>
+		<div class="slide-caption">
+			<h4>About the doctor:</h4>
+			<p><?php echo $data['description'][0]?></p>
+			<a href="<?php echo get_author_posts_url($clinician->ID)?>"> View <?php echo $role[0]?> profile</a>
+		</div>
+	</div>
+	<?php 
+		endforeach;
+	?>
+	<span class="slider-prev">prev</span>
+	<span class="slider-next">next</span>
+</div>
 
 <?php get_footer(); ?>
