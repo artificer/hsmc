@@ -140,9 +140,8 @@ textarea {
             transition: left 1s ease-out 0.3s;
 }
 
-
 .slide.leave{
-    left: -9999px;
+    /*left: -9999px;*/
     -webkit-transition: left 1s ease-in 0.3s;
        -moz-transition: left 1s ease-in 0.3s;
          -o-transition: left 1s ease-in 0.3s;
@@ -155,6 +154,11 @@ textarea {
 
 .slide-caption{
     display: none;
+}
+
+.slider-next,
+.slider-prev{
+    cursor: pointer;
 }
 
 

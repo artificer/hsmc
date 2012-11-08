@@ -17,6 +17,11 @@ $.widget('cmist.filmslide', {
 		 */
 		this._leftBoundary = $(self.options.frame).first().offset().left;
 
+
+		this.element
+			.on('click', '.slider-prev', $.proxy(this.prev, this))
+			.on('click', '.slider-next', $.proxy(this.next, this));
+
 		this.element
 			.addClass(this.widgetBaseClass)
 			.imagesLoaded($.proxy(this.start, this));
@@ -30,6 +35,8 @@ $.widget('cmist.filmslide', {
 		this.next();			
 	},
 	next: function(evt){
+		if(evt) clearTimeout(this._timeoutID);
+
 		if(this._viewNo > 0){
 			this.element
 				.one('transitionend.leave webkitTransitionEnd.leave', this._currentSlides.last(), $.proxy(this._arrive, this));
@@ -37,21 +44,41 @@ $.widget('cmist.filmslide', {
 		} else{
 			this._arrive();
 		}
-		setTimeout($.proxy(this.next, this), this.options.interval);
+
+		this._timeoutID = setTimeout($.proxy(this.next, this), this.options.interval);
 	},
 	prev: function(evt){
-		//can't do previous if the 
+		//not sure if this is right way to go about it
+		//probably should be able to look at previous if viewNo == 0
+		console.log('previous');
 		if(this._viewNo == 0)
 			return false;
 		
+
 		this.element
-				.one('transitionend.leave webkitTransitionEnd.leave', this._currentSlides.last(), $.proxy(this._arrive, this));
+				.one('transitionend.leave webkitTransitionEnd.leave', this._currentSlides.last(), true ,$.proxy(this._arrive, this));
 		this._leave(true);
+
+		// this._timeoutID = setTimeout($.proxy(this.next, this), this.options.interval);
 	},
 	_leave: function(reverse){
-		reverse = typeof reverse !== 'undefined' ? a : false;
+		reverse = typeof reverse !== 'undefined' ? reverse : false;
 		var self = this, slideOffset = 0;
 
+		//reverse flow
+		//TODO adjust delays so the leaving feels like its going backwards
+		// if(reverse){
+		// 	var slides = $(this._currentSlides.get().reverse())
+		// 		.removeClass('arrive')
+		// 		.addClass('leave')
+		// 		.css({
+		// 			left : ''
+		// 		});
+		// 	this._queue = this._queue.add(slides);
+		// 	return true;
+		// }
+
+		//normal flow
 		if(this._queue.length == 0){
 			//reset queue
 			this.element.off('transitionend.leave webkitTransitionEnd.leave');
@@ -63,31 +90,65 @@ $.widget('cmist.filmslide', {
 							'left': '',
 							'-webkit-transition-delay' : '',
 							'-moz-transition-delay' : '',
-							'transition-delay' : ''
+							'transition-delay' : '',
+							// '-webkit-transition-duration': '0s'
 						})
 						.removeClass('leave arrive')
-						.css('display', '');
+						.css({
+							'display': '',
+							// '-webkit-transition-duration': ''	
+						});
 
+					console.log('resetting queue' + this._slides.first().css('left'));
 					this._queue = this._slides;
 					this._viewNo = 0;
 					this._dequeue = null;
 					this._currentSlides = null;
-					$.proxy(this._arrive, this);
+
+					clearTimeout(this._timeoutID);
+					this._arrive();
+					this._timeoutID = setTimeout($.proxy(this.next, this), this.options.interval);
 				},this));
-
-
 		}
 
-		this._dequeue = this._currentSlides
-							.removeClass('arrive')
-							.addClass('leave')
-							.css({
-								'left' : ''
-							});
+		this._currentSlides
+			.removeClass('arrive')
+			.addClass('leave')
+			.css({
+				'left' : -9999
+			});
+
+		if(this._dequeue == null){
+			this._dequeue =	this._currentSlides;
+		} else{
+			this._dequeue = this._dequeue.add( this._currentSlides );
+		}
 	},
-	_arrive: function(){
+	_arrive: function(reverse){
 		reverse = typeof reverse !== 'undefined' ? reverse : false;
 		var self = this, slideOffset = 0;
+		console.log('arriving');
+
+		// if(reverse){
+		// 	this._viewNo--;
+		// 	this._currentSlides = $(this._dequeue.get().reverse())
+		// 							.filter(':nth-child(-n+'+this.options.slidesPerView*this._viewNo+')')
+		// 							.addClass('arrive')
+		// 							.each(function(i){
+		// 								//calculate delay based on the slides position in the dom
+		// 								var delay = i * parseFloat($(this).css('transition-delay').replace('s',''));
+		// 								$(this).css({
+		// 									'-webkit-transition-delay' : delay + 's',
+		// 									'-moz-transition-delay' : delay + 's',
+		// 									'transition-delay' : delay + 's',
+		// 									'left' : self._leftBoundary + (i*slideOffset)
+		// 								});
+		// 								slideOffset = $(this).outerWidth(true);
+		// 							});
+
+		// 	this._dequeue = this._dequeue.not(this._currentSlides);
+		// 	return true;
+		// }
 
 		this._viewNo++;
 		this._currentSlides = this._queue
@@ -106,7 +167,6 @@ $.widget('cmist.filmslide', {
 							});
 			
 		this._queue = this._queue.not(this._currentSlides);	
-		
 	},
 	_slides: null,
 	_currentSlides: null,
@@ -114,6 +174,7 @@ $.widget('cmist.filmslide', {
 	_dequeue: null,
 	_leftBoundary: 0,
 	_viewNo: 0,
+	_timeoutID: null,
 	_setOption: function(key, value){
 		// switch(key){
 			// case 'current':
@@ -132,7 +193,7 @@ $.widget('cmist.filmslide', {
 	},
 	options:{
  		slides: '.slide',
- 		interval: 3000,
+ 		interval: 5000,
  		duration: 1000,
  		frame: '.inner',
  		slidesPerView: 3

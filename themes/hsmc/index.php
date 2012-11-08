@@ -43,8 +43,8 @@ get_header(); ?>
 	<?php 
 		endforeach;
 	?>
-	<span class="slider-prev">prev</span>
 	<span class="slider-next">next</span>
+	<span class="slider-prev">prev</span>
 </div>
 
 <?php get_footer(); ?>
