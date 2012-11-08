@@ -140,6 +140,15 @@ textarea {
             transition: left 1s ease-out 0.3s;
 }
 
+
+.slide.leave{
+    left: -9999px;
+    -webkit-transition: left 1s ease-in 0.3s;
+       -moz-transition: left 1s ease-in 0.3s;
+         -o-transition: left 1s ease-in 0.3s;
+            transition: left 1s ease-in 0.3s;
+}
+
 .slide > img{
     width: 100%;
 }
