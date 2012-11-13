@@ -1,3 +1,23 @@
+  <footer>
+    <div class="widget-wrap">
+      <div class="inner"> 
+      <?php if ( is_active_sidebar( 'footer-widgets' ) ) : ?>
+        <?php dynamic_sidebar( 'footer-widgets' ); ?>
+      <?php endif; ?>
+      </div>
+    </div>
+    <div class="sign-off">
+      <div class="inner">
+        <div class="colophon">&copy; All Rights Reserved</div>
+        <ul class="social-btns inline">
+          <li>Facebook</li>
+          <li>Twitter</li>
+          <li>RSS</li>
+          <li>???</li>
+        </li>
+      </div>
+    </div>
+  </footer>
   <?php wp_footer() ?>
 
 	<!-- Asynchronous Google Analytics snippet. Change UA-XXXXX-X to be your site's ID.

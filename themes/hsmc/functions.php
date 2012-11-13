@@ -74,14 +74,24 @@ function hsmc_setup() {
 add_action( 'after_setup_theme', 'hsmc_setup' );
 
 /**
- * Registers our main widget area and the front page widget areas.
+ * Registers our footer widget area.
  *
- * @since Actor 1.1
+ * @since HSMC 1.1
  */
-function actor_widgets_init() {
+function hsmc_widgets_init() {
+	$args = array(
+		'name'          => __( 'Footer Widgets', 'hsmc' ),
+		'id'            => 'footer-widgets',
+		'description'   => '',
+        'class'         => 'hsmc-side',
+		'before_widget' => '<div id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</div>',
+		'before_title'  => '<h2 class="widgettitle visuallyhidden">',
+		'after_title'   => '</h2>' );
 
+	register_sidebar($args);
 }
-add_action( 'widgets_init', 'actor_widgets_init' );
+add_action( 'widgets_init', 'hsmc_widgets_init' );
 
 /**
  * Sets up custom post types for the site

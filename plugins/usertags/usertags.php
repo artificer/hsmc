@@ -21,22 +21,19 @@ class User_Tags{
 
     function activate() {
     	add_option( 'user_tags_enabled', true);
-		$doctor = add_role( 'doctor', 'Doctor', array(
-			'read' => true,
-			'publish_posts',
-			'delete_posts',
-			'delete_published_posts',
-			'edit_published_posts',
-			'upload_files'
-		));
-		$midwife = add_role( 'midwife', 'Midwife', array(
-			'read' => true,
-			'publish_posts',
-			'delete_posts',
-			'delete_published_posts',
-			'edit_published_posts',
-			'upload_files'
-		));
+
+    	$caps = array(
+			'read'                   => true,
+			'publish_posts' 		 => true,
+			'delete_posts' 		     => true,
+			'delete_published_posts' => true,
+			'edit_published_posts' 	 => true,
+			'edit_posts'			 => true,
+			'upload_files' 			 => true
+		);
+
+		$doctor = add_role( 'doctor', 'Doctor', $caps);
+		$midwife = add_role( 'midwife', 'Midwife', $caps);
 	} // end activate
 
 	function deactivate() {

@@ -105,17 +105,73 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
+body{
+    background: #e7e7e7 url(img/bg-noise.jpg) repeat;
+}
+
 .inner{
     width: 960px;
     margin: 0 auto;
 }
+
+header{
+    background-color: #eaeaea;
+}
+
+.site-title{
+    width: 208px;
+    float: left;
+}
+
+.menu-main-menu-container .menu{
+    margin: 0;
+    padding: 0;
+    float: right;
+    list-style: none outside;
+}
+
+.menu > li{
+    float: left;
+}
+
+.content{
+    -webkit-box-shadow: inset 0 -4px 9px rgba(124,124,124, 0.4);
+       -moz-box-shadow: inset 0 -4px 9px rgba(124,124,124, 0.4);
+            box-shadow: inset 0 -4px 9px rgba(124,124,124, 0.4);
+}
+
+.widget-wrap{
+    background: #fff;
+    padding: 38px 0 0 0;
+}
+
+.sign-off:before{
+    content: '';
+    display: block;
+    background: url(img/bg-widget-footer.png) bottom center no-repeat transparent;
+    height: 84px;
+}
+
+.tweets{
+    margin: 0;
+    padding: 0;
+    list-style: none outside;
+}
+
+.colophon{
+    float: left;
+}
+
+.social-btns{
+    float: right;
+}
+
 
 
 /* ===================================================
    Homepage slider
    Author: Milos (Citrus Mist);
    =================================================== */
-
 
 .slider{
     position: relative;
@@ -162,9 +218,70 @@ textarea {
 }
 
 
+.hero{
+    background: #4fa8cc url(img/hero-bg.jpg) 0 50% no-repeat;
+    height: 415px;
+    overflow: hidden;
+}
+
+.profile-pic{
+    margin: 48px 0 0 42px;
+    float: left;
+    width: 457px;
+}
+
+.hero .quote{
+    float: right;
+    width: 451px;
+    color: #b0b0b0;
+    font-size: 26px;
+}
+
+.left-col{
+    float: left;
+    width: 466px;
+}
+
+.right-col{
+    float: right;
+    width: 476px;
+}
+
+.left-col section{
+    border-top: 3px solid #b5236f;
+}
+
+.col-wrap{
+    background-color: #fff;
+    color: #474747;
+}
+
+.col-wrap{
+    color: #333;
+}
+
+.hentry{
+    color: #646b7a;
+    font-size: 14px;
+    line-height: 20px;
+    border-bottom: 1px solid #bbb;
+}
+
 /* ==========================================================================
    Helper classes
    ========================================================================== */
+
+
+ul.plain,
+ul.inline{
+    margin: 0;
+    padding: 0;
+    list-style: none outside;
+}
+
+ul.inline > li{
+    float: left;
+}
 
 /*
  * Image replacement

@@ -14,7 +14,7 @@
  */
 
 get_header(); ?>
-<div class="slider">
+<div class="slider hero">
 	<?php
 		$docs = get_users(array(
 			'role' => 'doctor'
@@ -28,8 +28,8 @@ get_header(); ?>
 		foreach ($staff as $clinician):
 			$data = get_user_meta($clinician->ID);
 			$role = array_keys(unserialize($data['wp_capabilities'][0]));
-			Debug_Bar_Extender::instance()->trace_var($data);
-			Debug_Bar_Extender::instance()->trace_var($role);
+			// Debug_Bar_Extender::instance()->trace_var($data);
+			// Debug_Bar_Extender::instance()->trace_var($role);
 	?>
 	<div class="slide">
 		<h3><?php echo $clinician->display_name ?></h3>
