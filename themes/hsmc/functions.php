@@ -134,7 +134,7 @@ function my_class_names($classes) {
 		$classes[] = 'hospitals';
 	elseif(is_singular('post'))
 		$classes[] = 'blog';
-	elseif (is_page('doctors')) 
+	elseif (is_page('consultants')) 
 		$classes[] = 'doctors';
 		
 	// return the $classes array
