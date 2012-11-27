@@ -38,6 +38,9 @@
   	<meta name="viewport" content="width=device-width">
   	<!-- Place favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
 
+  	<script type="text/javascript" src="//use.typekit.net/yoo2qup.js"></script>
+	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
     <link rel="stylesheet" type="text/css" media="all" href="<?php echo get_stylesheet_directory_uri() ?>/css/normalize.css" />
     <link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
 	

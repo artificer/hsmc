@@ -5,6 +5,8 @@ jQuery(document).ready(function(){
 		$body.find('.slider').filmslide();
 	}
 
+	Shadowbox.init();
+
 });
 
 (function($){

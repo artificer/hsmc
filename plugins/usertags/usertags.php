@@ -81,7 +81,7 @@ class User_Tags{
   		// 	if(isset($user_tag->id))
   		// 		$assigned_users[$user_tag->id] = get_user_by('id', $user_tag->id);
   		// }
-  		log_me($assigned_users);
+  		// log_me($assigned_users);
 
     	$avail_users = get_users(array(
     			'exclude' => $user_tags,

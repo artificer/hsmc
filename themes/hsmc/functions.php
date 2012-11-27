@@ -64,10 +64,11 @@ function hsmc_setup() {
 	 * NOTE: The size only works for newly uploaded images. If changed the thumbnails 
 	 * are gonna have to be resized, there is a plugin for that apparently... 
 	 */
-	// add_image_size( 'small-prod-thumb', 270, 234, true); // Permalink thumbnail size
+	add_image_size( 'index-thumb', 216, 216, true); // Permalink thumbnail size
+	add_image_size( 'article-hero', 588, 288, true); // Permalink thumbnail size
 	
 	if ( function_exists( 'register_nav_menu' ) ) {
-    	register_nav_menu( 'primary', __( 'Primary Menu', 'twentytwelve' ) );
+    	register_nav_menu( 'primary', __( 'Primary Menu', 'hsmc' ) );
   	}
 }
 /** Tell WordPress to run actor_setup() when the 'after_setup_theme' hook is run. */
@@ -103,23 +104,24 @@ function create_post_type() {
       'labels' => array(
         'name' 				=> _x('Hospitals', 'post type general name' ),
 		'singular_name' 	=> _x('Hospital', 'post type singular name'),
-		'add_new'			=> _x('Add New', 'sig_product'),
+		'add_new'			=> _x('Add New', 'hospital'),
 		'add_new_item'		=> __('Add New Hospital'),
 		'new_item'			=> __('New Hospital'),
 		'view_item'			=> __('View Hospital'),
 		'edit_item'			=> __('Edit Hospital'),
 		'parent_item_colon'	=> ''
       ),
-	  'show-ui'	=> true,
-	  'rewrite' => array('slug' => 'hospital'),
+	  'show-ui'	        => true,
+	  'rewrite'         => array('slug' => 'hospital'),
 	  'capability_type' => 'post',
-	  'supports' => array(
+	  'supports'        => array(
 		  'title',
 		  'editor',
       	  'thumbnail',
       	  'excerpt'
 	   ),
-  	   'public' => true,
+  	   'public'         => true,
+  	   'has_archive'    => true
     )
   );
 }
@@ -128,8 +130,12 @@ add_action( 'init', 'create_post_type' );
 
 function my_class_names($classes) {
 	// add 'class-name' to the $classes array
-	 // if(is_page('portfolio') || is_post_type_archive('sig_portfolio'))
-		// $classes[] = 'folio';
+	if(is_page('hospital') || is_post_type_archive('hospital'))
+		$classes[] = 'hospitals';
+	elseif(is_singular('post'))
+		$classes[] = 'blog';
+	elseif (is_page('doctors')) 
+		$classes[] = 'doctors';
 		
 	// return the $classes array
 	return $classes;
@@ -158,8 +164,100 @@ function enqueue_front_scriptstyles(){
 	else
 		wp_enqueue_script('main', get_bloginfo('template_url').'/js/main.js', array('plugins'), false, true);
 
+	wp_enqueue_style('shadowbox', get_bloginfo('template_url').'/css/shadowbox/shadowbox.css');
+
 }
 add_action('wp_enqueue_scripts', 'enqueue_front_scriptstyles');
+
+
+function get_attached_imgs($pid, $size){
+	$imgs = array();
+	$images =&get_children( 'post_parent='.$pid.'&post_type=attachment&post_mime_type=image&orderby=menu_order&order=ASC' );
+	
+	if($images == false){
+		//A project always has to have at least one image associated with it as
+		//every project needs at least a hero shot 
+		return false;
+	}
+
+	foreach ($images as $img){
+		$tmp = wp_get_attachment_image_src($img->ID, $size);
+		$imgs[] = array(
+			'id'		=> $img->ID,
+			'src' 		=> $tmp[0],
+			'width'		=> $tmp[1],
+			'height'	=> $tmp[2]
+		);
+	}
+	return $imgs;
+}
+
+/* Adds a box to the main column on the Post and Page edit screens */
+function add_address_box() {
+    add_meta_box( 
+        'hsmc_address',
+        __( 'Location', 'hsmc' ),
+        'hsmc_address_box',
+        'hospital',
+        'normal',
+        'low'
+    );
+}
+add_action( 'add_meta_boxes', 'add_address_box' );
+
+/* Prints the box content */
+function hsmc_address_box( $post ) {
+  $custom = get_post_custom($post->ID);
+  $location = isset($custom['location']) ? unserialize($custom['location'][0]) : array();
+  wp_nonce_field( 'hsmc_location', 'hsmc_adressnonce' );
+  ?>
+	<div>
+		<h4>Address</h4>
+		<textarea name="location[address]"><?php echo esc_textarea($location['address']) ?></textarea>
+	</div>  
+  	<div>
+  		<h4>Map Embed Code</h4>
+  		<textarea name="location[map]"><?php echo esc_textarea($location['map']) ?></textarea>
+  	</div>
+  
+  <?php
+}
+
+/**
+ * Saves custom fields for enabled post_types
+ * @uses update_post_meta To update additional meta fields
+ * @return 
+ */
+function hsmc_save_location($post_id){
+	//Taken from http://codex.wordpress.org/Plugin_API/Action_Reference/save_post	  
+  	$slug = 'hospital';
+
+    /* check whether anything should be done */
+    // $_POST += array("{$slug}_edit_nonce" => get_current_theme());
+    if ( !isset($_REQUEST['post_type']) || $slug != $_REQUEST['post_type'] ) {
+        return;
+    }
+
+    if ( !current_user_can( 'edit_post', $post_id ) ) {
+        return;
+    }
+	
+    if (!isset($_POST["user_tags_nonce"]) || 
+    	!wp_verify_nonce( $_POST["hsmc_adressnonce"], 'hsmc_location')){
+        return;
+    }
+	
+	// print_r($_POST);
+    if (isset($_POST['location'])) {
+    	/* Request passes all checks; update the post's metadata */
+        update_post_meta($post_id, 'location', $_POST['location']);
+    } else{
+    	delete_post_meta($post_id, 'location' );
+    }
+}
+/* Do something with the data entered */
+add_action( 'save_post', 'hsmc_save_location' );
+
 
 /*********************************************
  * TODO: Put in a separate plugin file
@@ -185,6 +283,8 @@ add_filter('user_contactmethods','new_contactmethods',10,1);
 function hsmc_user_profile($user) {
 	$userpic_url = get_the_author_meta('userpic', $user->ID);
 	$uservid_code = get_the_author_meta('uservid', $user->ID );
+	$user_tmonial = get_the_author_meta('usertmonial', $user->ID);
+	log_me($user_tmonial);
     ?>
     <h3>User Media</h3>
     <table class="form-table">
@@ -206,13 +306,28 @@ function hsmc_user_profile($user) {
     		<tr>
 	    		<th><label for="uservid">Profile Video</label></th>
 	    		<td>
-	    			<textarea name="uservid" id="uservid" rows="5" cols="30">
-	    				<?php echo esc_textarea( $uservid_code ); ?>
-	    			</textarea>
+	    			<textarea name="uservid" id="uservid" rows="5" cols="30"><?php echo esc_textarea( $uservid_code ); ?></textarea>
 	    		</td>
     		</tr>
     	</tbody>
     </table>
+    <h3>User Testimonial</h3>
+    <table class="form-table">
+    	<tbody>
+    		<tr>
+	    		<th><label for="userpic">Testimonial</label></th>
+	    		<td>
+	    			<textarea name="usertmonial[text]" id="usertmonial_text" rows="5" cols="30"><?php echo esc_textarea( $user_tmonial['text']); ?></textarea>
+	    		</td>
+    		</tr>
+    		<tr>
+    			<th><label for="userpic">Testimonial Source</label></th>
+    			<td>
+    				<input type="text" name="usertmonial[source]" id="usertmonial_source" value="<?php echo esc_attr($user_tmonial['source']) ?>" />
+	    		</td>
+    		</tr>
+	    </tbody>
+	</table>
     <?php
 }
 add_action('edit_user_profile','hsmc_user_profile');   
@@ -241,6 +356,7 @@ function hsmc_save_extra_profile_fields( $user_id ) {
 
 	update_user_meta($user_id, 'uservid', $_POST['uservid']);
 	update_user_meta($user_id, 'userpic', $userpic_url);
+	update_user_meta($user_id, 'usertmonial', $_POST['usertmonial']);
 }   
 add_action( 'personal_options_update', 'hsmc_save_extra_profile_fields' );
 add_action( 'edit_user_profile_update', 'hsmc_save_extra_profile_fields' );
@@ -265,13 +381,14 @@ function hsmc_options_enqueue_scripts() {
 }
 add_action('admin_enqueue_scripts', 'hsmc_options_enqueue_scripts');
 
-function wptuts_options_setup() {
+function hsmc_options_setup() {
 	global $pagenow;
 	if ( 'media-upload.php' == $pagenow || 'async-upload.php' == $pagenow ) {
 		// Now we'll replace the 'Insert into Post Button' inside Thickbox
 		add_filter( 'gettext', 'replace_thickbox_text'  , 1, 3 );
 	}
 }
+add_action( 'admin_init', 'hsmc_options_setup' );
 
 function replace_thickbox_text($translated_text, $text, $domain) {
 	if ('Insert into Post' == $text) {
@@ -282,7 +399,6 @@ function replace_thickbox_text($translated_text, $text, $domain) {
 	}
 	return $translated_text;
 }
-add_action( 'admin_init', 'wptuts_options_setup' );
 
 
 // function hsmc_options_validate( $input ) {
