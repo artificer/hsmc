@@ -32,12 +32,20 @@ get_header(); ?>
 			// Debug_Bar_Extender::instance()->trace_var($role);
 	?>
 	<div class="slide">
-		<h3><?php echo $clinician->display_name ?></h3>
+		<h2><?php echo $clinician->display_name ?></h2>
 		<img src="<?php echo esc_attr($data['userpic'][0])?>" alt="Portriat of <?php echo esc_attr($clinician->display_name)?>"/>
-		<div class="slide-caption">
-			<h4>About the doctor:</h4>
-			<p><?php echo $data['description'][0]?></p>
-			<a href="<?php echo get_author_posts_url($clinician->ID)?>"> View <?php echo $role[0]?> profile</a>
+		<div class="slide-caption hidden">
+			<h3 class="h2">
+				<?php echo esc_attr($clinician->display_name)?>
+				<span class="slide-caption-close"></span>
+			</h3>
+			<div class="slide-caption-body">
+				<h4>About the <?php echo $role[0]?>:</h4>
+				<p><?php echo limit_words($data['description'][0], 25)?></p>
+				<a class="btn-teritary" href="<?php echo get_author_posts_url($clinician->ID)?>">
+					View <?php echo $role[0]?> profile
+				</a>
+			</div>
 		</div>
 	</div>
 	<?php 
@@ -53,7 +61,7 @@ get_header(); ?>
 			We offer a <strong>bespoke consultancy</strong> service for <strong>your pregnancy</strong>.
 		</p>
 		<div class="service">
-			<img src="<?php echo get_bloginfo('template_url')?>/img/rooms.jpg"/>
+			<img  class="service-thumb" src="<?php echo get_bloginfo('template_url')?>/img/rooms.jpg"/>
 			<h2>Our Rooms</h2>
 			<p>
 				The Harley Maternity Group is a dedicated team of private consultants 
@@ -61,7 +69,7 @@ get_header(); ?>
 			</p>
 		</div>
 		<div class="service">
-			<img src="<?php echo get_bloginfo('template_url')?>/img/hospitals.jpg"/>
+			<img class="service-thumb" src="<?php echo get_bloginfo('template_url')?>/img/hospitals.jpg"/>
 			<h2><a href="<?php echo site_url('/hospitals')?>">Our Hospitals</a></h2>
 			<p>
 				The Harley Maternity Group is a dedicated team of private consultants 
@@ -69,7 +77,7 @@ get_header(); ?>
 			</p>
 		</div>
 		<div class="service">
-			<img src="<?php echo get_bloginfo('template_url')?>/img/doctors.jpg"/>
+			<img class="service-thumb" src="<?php echo get_bloginfo('template_url')?>/img/doctors.jpg"/>
 			<h2><a href="<?php echo site_url('/doctors')?>">Our Doctors</a></h2>
 			<p>
 				The Harley Maternity Group is a dedicated team of private consultants 

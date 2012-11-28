@@ -18,7 +18,6 @@ else:
 	$clinician = get_user_by('id', get_query_var('author'));
 endif;
 $data = get_user_meta($clinician->ID);
-Debug_Bar_Extender::instance()->trace_var($data);
 
 get_header(); ?>
 <?php 

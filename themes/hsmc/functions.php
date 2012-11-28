@@ -213,11 +213,11 @@ function hsmc_address_box( $post ) {
   ?>
 	<div>
 		<h4>Address</h4>
-		<textarea name="location[address]"><?php echo esc_textarea($location['address']) ?></textarea>
+		<textarea name="location[address]"><?php echo isset($location['address']) ? esc_textarea($location['address']) : '' ?></textarea>
 	</div>  
   	<div>
   		<h4>Map Embed Code</h4>
-  		<textarea name="location[map]"><?php echo esc_textarea($location['map']) ?></textarea>
+  		<textarea name="location[map]"><?php echo isset($location['map']) ?  esc_textarea($location['map']) : '' ?></textarea>
   	</div>
   
   <?php
@@ -257,6 +257,14 @@ function hsmc_save_location($post_id){
 }
 /* Do something with the data entered */
 add_action( 'save_post', 'hsmc_save_location' );
+
+
+function limit_words($text, $count){
+
+	$words = explode(' ', $text);
+	$words = array_slice($words, 0, $count);
+	return implode(' ', $words );
+}
 
 
 /*********************************************

@@ -22,15 +22,13 @@ $.widget('cmist.filmslide', {
 
 		this.element
 			.on('click', '.slider-prev', $.proxy(this.prev, this))
-			.on('click', '.slider-next', $.proxy(this.next, this));
+			.on('click', '.slider-next', $.proxy(this.next, this))
+			.on('click', '.slide img', $.proxy(this.showProfile, this))
+			.on('click', '.slide-caption-close', $.proxy(this.closeProfile, this));
 
 		this.element
 			.addClass(this.widgetBaseClass)
 			.imagesLoaded($.proxy(this.start, this));
-
-		// this.element.on('transitionend webkitTransitionEnd',self.options.partOne, function(evt){
-		// }).on('click', '.next a', $.proxy(this.next, this))
-		//   .on('click', '.prev a', $.proxy(this.prev, this));
 	},
 	start: function(){
 		this._queue = this._slides;
@@ -57,21 +55,39 @@ $.widget('cmist.filmslide', {
 		if(this._viewNo == 0)
 			return false;
 		
-
-		this.element
-				.one('transitionend.leave webkitTransitionEnd.leave', this._currentSlides.last(),{ 'reverse': true },$.proxy(this._arrive, this));
+		this.element.one( 
+				'transitionend.leave webkitTransitionEnd.leave', 
+				this._currentSlides.last(),
+				{ 'reverse': true },
+				$.proxy(this._arrive, this)
+			);
 		this._leave(true);
 
 		this._timeoutID = setTimeout($.proxy(this.next, this), this.options.interval);
+	},
+	showProfile: function(evt){
+		console.log("showing profile");
+		clearTimeout(this._timeoutID);
+		$slide = $(evt.currentTarget).closest(this.options.slides).addClass('active');
+		$caption = $slide.find('.slide-caption').removeClass('hidden');
+
+
+	},
+	closeProfile: function(evt){
+		$closeBtn = $(evt.currentTarget);
+		$caption = $closeBtn.closest('.slide-caption').addClass('hidden');
+		$caption.closest(this.options.slides).removeClass('active');
+
+		//if there are no more open captions restart slider
+		if(this.element.find('.active').size() == 0)
+			this.next();
 	},
 	_leave: function(reverse){
 		reverse = typeof reverse !== 'undefined' ? reverse : false;
 		var self = this, slideOffset = 0;
 
 		//reverse flow
-		//TODO adjust delays so the leaving feels like its going backwards
 		if(reverse){
-			// var slides = $(this._currentSlides.get().reverse())
 			var slides = $(this._currentSlides.get().reverse())
 				.removeClass('arrive')
 				.addClass('leave')
@@ -134,8 +150,7 @@ $.widget('cmist.filmslide', {
 				'-webkit-transition-delay' : '',
 				'-moz-transition-delay' : '',
 				'transition-delay' : ''
-			})
-			.each(function(i){
+			}).each(function(i){
 				//calculate delay based on the slides position in the dom
 				var delay = i * parseFloat($(this).css('transition-delay').replace('s',''));
 				$(this).css({
@@ -146,11 +161,6 @@ $.widget('cmist.filmslide', {
 				});
 				slideOffset = $(this).outerWidth(true);
 			});
-
-
-			// .css({
-			// 	'left' : -9999
-			// });
 
 		if(this._dequeue == null){
 			this._dequeue =	this._currentSlides;
@@ -214,7 +224,7 @@ $.widget('cmist.filmslide', {
 										'left' : self._leftBoundary + (i*slideOffset)
 									});
 									slideOffset = $(this).outerWidth(true);
-							});
+								});
 			
 		this._queue = this._queue.not(this._currentSlides);	
 	},

@@ -62,7 +62,7 @@ class User_Tags{
 
 	function render_meta_box($the_post){
 		$custom = get_post_custom($the_post->ID);
-		// log_me($custom);
+		log_me($custom);
   		$user_tags = isset($custom['user_tags']) ? unserialize($custom['user_tags'][0]) : array();
 		// log_me($user_tags);
 
@@ -110,7 +110,7 @@ class User_Tags{
   				<?php foreach ($assigned_users as $user): ?>
 	  				<li class="user-tag" data-username="<?php echo esc_attr($user->user_login)?>" data-userid="<?php echo esc_attr($user->ID)?>">
 	  					<?php echo $user->display_name ?>
-	  					<input type="hidden" name="user_assigned[]" value="" class="user-tags-input" value='<?php echo esc_attr($user->ID)?>'/>
+	  					<input type="hidden" name="user_assigned[]" class="user-tags-input" value='<?php echo esc_attr($user->ID)?>'/>
 	  				</li>
 	  			<?php endforeach; ?>	
 	  			</ul>

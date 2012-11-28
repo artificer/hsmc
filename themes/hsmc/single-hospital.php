@@ -43,11 +43,11 @@ get_header(); ?>
 				<?php 
 					$custom = get_post_custom(get_the_ID());
   					$location = isset($custom['location']) ? unserialize($custom['location'][0]) : array();
-  					echo $location['map'];
+  					echo isset(var) ? $location['map'] : '';
 				?>
 				<h2>Address</h2>
 				<div>
-					<?php echo nl2br($location['address']) ?>
+					<?php echo isset($location['address']) ? nl2br($location['address']) : '' ?>
 				</div>
 			</section>
 		</aside>
