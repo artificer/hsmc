@@ -1,7 +1,7 @@
 <?php 
 	global $clinician;
 	global $data;
-	$user_tmonial =  unserialize($data['usertmonial'][0]);
+	$user_tmonial =  (isset($data['usertmonial'][0])) ? unserialize($data['usertmonial'][0]) : null;
 ?>
 
 <div class="hero">
@@ -38,7 +38,7 @@
 					<div class="author-desc">
 						<?php echo apply_filters('the_content', $data['description'][0])?>
 					</div>
-					<a class="btn-primary" href="#">Book now</a>
+					<a class="btn-primary btn-booking" href="javascript:void(0)">Book now</a>
 				</section>
 				<section class="">
 					<h1> Fees / Availability </h1>
@@ -85,4 +85,21 @@
 
 		</div>
 	</div> <!-- end of .inner -->
+	<div class="booking-form-wrap hidden">
+		<form method="post" action id="bookingForm" class="booking-form">
+			<div class="err-box"></div>
+			<label for="userName" class="h3">Clinican’s Name</label>
+			<input name="userName" id="userName" type="text"  class="booking-form-field" value="<?php echo esc_html($clinician->display_name)?>" disabled />
+			<label for="contactName" class="h3">Your Name</label>
+			<input name="contactName" id="contactName" class="booking-form-field" type="text" placeholder="e.g. Jane Doe" required>
+			<label for="contactEmail" class="h3">Your Email</label>
+			<input name="contactEmail" id="contactEmail" class="booking-form-field" type="text" placeholder="something@example.com" required>
+			<label for="message" class="h3">Your Enquiry</label>
+			<textarea class="booking-form-field" id="message" name="message"></textarea>
+			<label class="visuallyhidden" for="checking">If you want to submit this form, do not enter anything in this field</label>
+			<input id="checking" class="visuallyhidden" type="text" value="" name="checking">
+			<input id="submitted" type="hidden" name="submitted">
+			<input type="submit" name="submit" value="Submit" class="btn-primary"/>
+		</form>
+	</div>
 </div>

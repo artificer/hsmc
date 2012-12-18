@@ -18,7 +18,7 @@ class User_Tags{
 		add_action( 'admin_enqueue_scripts', array( &$this, 'enqueue_usertags_scripts' ), 10);
 		add_action( 'save_post', array(&$this,'save_user_tags'));
     }
-
+    
     function activate() {
     	add_option( 'user_tags_enabled', true);
 

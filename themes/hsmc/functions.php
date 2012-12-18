@@ -145,10 +145,17 @@ add_filter('body_class','my_class_names');
 
 function current_type_nav_class($classes, $item) {
     $post_type = get_post_type();
-    if ($item->attr_title != '' && $item->attr_title == 'Hospitals' 
-    	&& $post_type == 'hospital') {
+    if ($item->title == 'Hospitals' && $post_type == 'hospital') {
         array_push($classes, 'current-menu-item');
-    };
+    } elseif ($item->title == 'Consultants' && is_author()) {
+		$clinician = get_requested_user();
+		if ($clinician->roles[0] == 'doctor')
+			array_push($classes, 'current-menu-item');
+    } elseif ($item->title == 'Midwives' && is_author()) {
+		$clinician = get_requested_user();
+		if ($clinician->roles[0] == 'midwife')
+			array_push($classes, 'current-menu-item');
+    }
     return $classes;
 }
 //Add specific CSS to menu items, useful if we need archive pages in the main menu 
@@ -158,12 +165,14 @@ function enqueue_front_scriptstyles(){
 	wp_deregister_script('jquery');
     wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js', false, false, true);
 	wp_enqueue_script('plugins', get_bloginfo('template_url').'/js/plugins.js', array('jquery'), false, true);
-	
-	if (is_front_page())
-		wp_enqueue_script('main', get_bloginfo('template_url').'/js/main.js', array('plugins', 'jquery-ui-core', 'jquery-ui-widget'), false, true);
-	else
-		wp_enqueue_script('main', get_bloginfo('template_url').'/js/main.js', array('plugins'), false, true);
 
+	wp_enqueue_script(
+		'main', 
+		get_bloginfo('template_url').'/js/main.js', 
+		array('plugins', 'jquery-ui-core', 'jquery-ui-widget'), 
+		false, 
+		true
+	);
 	wp_enqueue_style('shadowbox', get_bloginfo('template_url').'/css/shadowbox/shadowbox.css');
 
 }
@@ -260,10 +269,16 @@ add_action( 'save_post', 'hsmc_save_location' );
 
 
 function limit_words($text, $count){
-
 	$words = explode(' ', $text);
 	$words = array_slice($words, 0, $count);
 	return implode(' ', $words );
+}
+
+function get_requested_user(){
+	if(get_query_var('author_name'))
+		return get_user_by('login', get_query_var('author_name'));
+	else
+		return get_user_by('id', get_query_var('author'));
 }
 
 

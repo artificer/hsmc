@@ -3,9 +3,26 @@ jQuery(document).ready(function(){
 
 	if($body.hasClass('home')){
 		$body.find('.slider').filmslide();
-	}
+	}else if($body.hasClass('author')){
+		Shadowbox.init({
+			skipSetup: true
+		});
+		$bookingForm = $body.find('.booking-form-wrap').detach();
+		$body.on('click', '.btn-booking', function(evt){
+			evt.preventDefault();
+			console.log('booking now');
 
-	Shadowbox.init();
+			Shadowbox.open({
+				content: $bookingForm.html(),
+				player: 'html',
+				title: "Book Clinician",
+				width: 350,
+				height: 500
+			});
+		});
+	}else if($body.hasClass('single-hospital')){
+		Shadowbox.init();
+	}
 
 });
 
@@ -32,7 +49,7 @@ $.widget('cmist.filmslide', {
 	},
 	start: function(){
 		this._queue = this._slides;
-		this.next();			
+		this.next();
 	},
 	next: function(evt){
 		if(evt) clearTimeout(this._timeoutID);
@@ -52,11 +69,11 @@ $.widget('cmist.filmslide', {
 		//not sure if this is right way to go about it
 		//probably should be able to look at previous if viewNo == 0
 		console.log('previous');
-		if(this._viewNo == 0)
+		if(this._viewNo === 0)
 			return false;
 		
-		this.element.one( 
-				'transitionend.leave webkitTransitionEnd.leave', 
+		this.element.one(
+				'transitionend.leave webkitTransitionEnd.leave',
 				this._currentSlides.last(),
 				{ 'reverse': true },
 				$.proxy(this._arrive, this)
@@ -79,7 +96,7 @@ $.widget('cmist.filmslide', {
 		$caption.closest(this.options.slides).removeClass('active');
 
 		//if there are no more open captions restart slider
-		if(this.element.find('.active').size() == 0)
+		if(this.element.find('.active').size() === 0)
 			this.next();
 	},
 	_leave: function(reverse){
@@ -94,7 +111,7 @@ $.widget('cmist.filmslide', {
 				.css({
 					'-webkit-transition-delay' : '',
 					'-moz-transition-delay' : '',
-					'transition-delay' : '',
+					'transition-delay' : ''
 				})
 				.each(function(i){
 					var delay = i * parseFloat($(this).css('transition-delay').replace('s',''));
@@ -103,15 +120,15 @@ $.widget('cmist.filmslide', {
 						'-moz-transition-delay' : delay + 's',
 						'transition-delay' : delay + 's',
 						left : ''
-					});	
-				})
+					});
+				});
 				
 			this._queue = this._queue.add(slides);
 			return true;
 		}
 
 		//normal flow
-		if(this._queue.length == 0){
+		if(this._queue.length === 0){
 			//reset queue
 			this.element.off('transitionend.leave webkitTransitionEnd.leave');
 			this.element
@@ -122,13 +139,13 @@ $.widget('cmist.filmslide', {
 							'left': '',
 							'-webkit-transition-delay' : '',
 							'-moz-transition-delay' : '',
-							'transition-delay' : '',
+							'transition-delay' : ''
 							// '-webkit-transition-duration': '0s'
 						})
 						.removeClass('leave arrive')
 						.css({
-							'display': '',
-							// '-webkit-transition-duration': ''	
+							'display': ''
+							// '-webkit-transition-duration': ''
 						});
 
 					console.log('resetting queue' + this._slides.first().css('left'));
@@ -162,7 +179,7 @@ $.widget('cmist.filmslide', {
 				slideOffset = $(this).outerWidth(true);
 			});
 
-		if(this._dequeue == null){
+		if(this._dequeue === null){
 			this._dequeue =	this._currentSlides;
 		} else{
 			this._dequeue = this._dequeue.add( this._currentSlides );
@@ -170,7 +187,7 @@ $.widget('cmist.filmslide', {
 	},
 	_arrive: function(evt, reverse){
 		if (evt != null){
-			reverse = typeof evt.data.reverse !== 'undefined' ? evt.data.reverse : false;
+			reverse = typeof evt.data.reverse != 'undefined' ? evt.data.reverse : false;
 		}
 
 		var self = this, slideOffset = 0;
@@ -180,7 +197,7 @@ $.widget('cmist.filmslide', {
 
 		if(reverse){
 			this._viewNo--;
-			console.log(this._dequeue.get().reverse())
+			console.log(this._dequeue.get().reverse());
 			// this._currentSlides = $(this._dequeue.get().reverse())
 			this._currentSlides = $(this._dequeue)
 									.filter(':nth-child(-n+'+this.options.slidesPerView*this._viewNo+')')
@@ -226,7 +243,7 @@ $.widget('cmist.filmslide', {
 									slideOffset = $(this).outerWidth(true);
 								});
 			
-		this._queue = this._queue.not(this._currentSlides);	
+		this._queue = this._queue.not(this._currentSlides);
 	},
 	_slides: null,
 	_currentSlides: null,
@@ -242,22 +259,22 @@ $.widget('cmist.filmslide', {
 		// }
 		this.options[key] = value;
 		// In jQuery UI 1.8, you have to manually invoke the _setOption method from the base widget
-      	// $.Widget.prototype._setOption.apply( this, arguments );
-      	this._super( "_setOption", key, value);
-	    // In jQuery UI 1.9 and above, you use the _super method instead
-	    // this._super( "_setOption", key, value );
+		// $.Widget.prototype._setOption.apply( this, arguments );
+		this._super( "_setOption", key, value);
+		// In jQuery UI 1.9 and above, you use the _super method instead
+		// this._super( "_setOption", key, value );
 	},
 	_destroy: function(){
 		// $.Widget.prototype.destroy.call( this );
 		// In jQuery UI 1.9 and above, you would define _destroy instead of destroy and not call the base method
 	},
 	options:{
- 		slides: '.slide',
- 		interval: 5000,
- 		duration: 1000,
- 		delay: 300,
- 		frame: '.inner',
- 		slidesPerView: 3
+		slides: '.slide',
+		interval: 5000,
+		duration: 1000,
+		delay: 300,
+		frame: '.inner',
+		slidesPerView: 3
 	}
 });
 

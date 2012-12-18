@@ -11,12 +11,7 @@
  * @subpackage HSMC
  * @since HSMC 0.1
  */
-
-if(get_query_var('author_name')):
-	$clinician = get_user_by('login', get_query_var('author_name'));
-else:
-	$clinician = get_user_by('id', get_query_var('author'));
-endif;
+$clinician = get_requested_user();
 $data = get_user_meta($clinician->ID);
 
 get_header(); ?>

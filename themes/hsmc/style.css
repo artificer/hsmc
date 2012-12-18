@@ -33,6 +33,7 @@ textarea {
 body {
     font-size: 1em;
     line-height: 1.4;
+    text-rendering: optimizeLegibility;
 }
 
 /*
@@ -120,7 +121,8 @@ nav{
     font-weight: 700;
 }
 
-.quote{
+.quote,
+.tweets{
     font-family: 'futura-pt', sans-serif;
     font-weight: 300;
 }
@@ -139,7 +141,8 @@ h1,
 
 h1, 
 .h1,
-.intro{
+.intro,
+.tweets{
     font-size: 26px;
     font-size: 1.85714285714285rem;
 }
@@ -158,18 +161,19 @@ h1:before{
     margin-left: -24px;
 }
 
-.site-title{
-    padding: 0;
-}
-.site-title:before{
-    content: none;
+.hero .intro,
+.hero .h1{
+    margin: 14px 0;
+    margin: 0.875rem 0;
 }
 
-h2, .h2{
+h2, 
+.h2{
     text-transform: uppercase;
     font-size: 17px;
     font-size: 1.0625rem;
     letter-spacing: -1px;
+    word-spacing: 0;
 }
 
 .intro{
@@ -216,9 +220,11 @@ h2, .h2{
     text-shadow: 0 2px 2px rgba(0, 0 ,0 , 0.2);
 
     -webkit-box-shadow: 0 2px 0 rgba(70, 7, 53, 0.9);
+       -moz-box-shadow: 0 2px 0 rgba(70, 7, 53, 0.9);
             box-shadow: 0 2px 0 rgba(70, 7, 53, 0.9);
 
     -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
             border-radius: 4px;
 }
 
@@ -299,23 +305,43 @@ body{
 }
 
 header{
+    height: 54px; 
+    overflow: visible;
+    background-color: #eaeaea;
     border-bottom: 8px solid #fff;
+
+    -webkit-box-shadow: inset 0 -4px 9px rgba(124,124,124, 0.4);
+       -moz-box-shadow: inset 0 -4px 9px rgba(124,124,124, 0.4);
+            box-shadow: inset 0 -4px 9px rgba(124,124,124, 0.4);
 }
+
+header .inner{
+    position: relative;
+}
+
 
 .inner{
     width: 960px;
     margin: 0 auto;
 }
 
-
-
-header{
-    background-color: #eaeaea;
+.site-title{
+    background: url(img/logo.png) 0 0 no-repeat;
+    /*width: 231px;*/
+    height: 117px;
+    width: 248px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    left: -20px;
+    top: 0;
+    text-indent: -99999em;
+    direction: ltr;
+    z-index: 20;
 }
 
-.site-title{
-    width: 208px;
-    float: left;
+.site-title:before{
+    content: none;
 }
 
 .menu-main-menu-container .menu{
@@ -328,9 +354,11 @@ header{
 }
 
 .menu > li{
+    line-height: 53px;
     float: left;
     margin-left: 20px;
     font-size: 17px;
+    position: relative;
 }
 
 .menu a, 
@@ -339,6 +367,14 @@ header{
     color: #606060;
     text-decoration: none;
 }
+
+.current-menu-item:after {
+    content: '';
+    display: block;
+    background: #b5236f;
+    height: 8px;
+    margin: 1px 0 0;
+} 
 
 .content{
     padding: 0 0 60px 0;
@@ -363,6 +399,13 @@ header{
     margin: 0;
     padding: 0;
     list-style: none outside;
+    width: 640px;
+}
+
+.timesince{
+    font-size: 17px;
+    font-size: 1.0625rem;
+    display: block;
 }
 
 .colophon{
@@ -375,10 +418,10 @@ header{
 
 .hero{
     background: #4fa8cc url(img/hero-bg.jpg) 0 50% no-repeat;
-    height: 415px;
+    height: 335px;
     overflow: hidden;
+    padding: 80px 0 0 0;
 }
-
 
 .quote .source{
     display: block;
@@ -490,7 +533,7 @@ header{
 
 .intro{
     font-weight: 300;
-    letter-spacing: 0px;
+    letter-spacing: 0;
 }
 
 .service{
@@ -591,13 +634,50 @@ article.hospital-short,
             box-shadow: 0 -0 4px rgba(0, 0, 0, 0.16);
 }
 
+input[type="submit"], 
+button{
+    border: none;
+    padding: 0;
+}
+
+.booking-form{
+    height: 100%;
+    background: #e7e7e7;
+    padding: 1.6em 1.4em;
+    box-sizing: border-box;
+}
+
+input:disabled{
+    background: #eee;
+}
+
+.booking-form input[type="text"]{
+    line-height: 2em;
+}
+
+.booking-form .btn-primary{
+    margin: 1.25em 0 0 0;
+}
+
+.booking-form textarea{
+    line-height: 1.4;
+    height: 9.8em;
+}
+
+.booking-form-field{
+    display: block;
+    margin: 4px 0 1em;
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid #bbb;
+}
 
 /***********************
  * Hospital Index page 
  ***********************/
 
 .hospitals .hero{
-    height: 233px;
+    height: 163px;
 }
 
 
@@ -611,7 +691,7 @@ article.hospital-short{
  ***************************/
 
 .single-hospital .hero{
-    height: 233px;
+    height: 153px;
 }
 
 .single-hospital .hentry{
@@ -664,20 +744,53 @@ aside .inner{
  *******************/
 
 .blog .hero{
-    height: 233px;
+    height: 153px;
 }
 
-.blog-index h1{
+.blog .article-header{
+    padding: 0 0 4px 0;
+    margin-bottom: 3px;
     border-bottom: 1px solid #bbb;
 }
 
-.blog-index .hentry{
+.blog .article-header:before{
+    margin-left: 0;
+    padding-right: 4px;
+}
+
+.blog .hentry{
     border-bottom: none;
+    margin-bottom: 2em;
 }
 
 .author-name{
     padding: 0 0 0 10px;
 }
+
+
+/***********************************
+ * Blog Single
+ ***********************************/
+
+.author-credit .thumb{
+    width: 129px;
+}
+
+.author-credit .img{
+    height: 129px;
+    overflow: hidden;
+}
+
+.author-credit .bd{
+    margin: 0 0 0 149px;
+    line-height: 18px;
+    line-height: 1.28571428571428;
+}
+
+.author-credit .bd-mask{
+    height: 90px;
+}
+
 
 /* ===================================================
    Homepage slider
@@ -707,6 +820,7 @@ aside .inner{
 .slide.arrive{
     -webkit-transition: left 1s ease-out 0.3s;
        -moz-transition: left 1s ease-out 0.3s;
+        -ms-transition: left 1s ease-out 0.3s;
          -o-transition: left 1s ease-out 0.3s;
             transition: left 1s ease-out 0.3s;
 }
@@ -715,6 +829,7 @@ aside .inner{
     /*left: -9999px;*/
     -webkit-transition: left 1s ease-in 0.3s;
        -moz-transition: left 1s ease-in 0.3s;
+        -ms-transition: left 1s ease-in 0.3s;
          -o-transition: left 1s ease-in 0.3s;
             transition: left 1s ease-in 0.3s;
 }
@@ -731,7 +846,9 @@ aside .inner{
     position: absolute;
     top: 190px; 
     left: 20px;
+
     -webkit-border-radius: 6px;
+       -moz-border-radius: 6px;
             border-radius: 6px;
 }
 
@@ -779,14 +896,14 @@ aside .inner{
    ========================================================================== */
 
 
-ul.plain,
-ul.inline{
+.plain,
+.inline{
     margin: 0;
     padding: 0;
     list-style: none outside;
 }
 
-ul.inline > li{
+.inline > li{
     float: left;
 }
 

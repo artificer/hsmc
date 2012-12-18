@@ -63,7 +63,7 @@
 <body <?php body_class(); ?>>
 	<header>
 		<div class="inner clearfix">
-			<h1 class="site-title"><?php bloginfo('name', 'Display')?></h1>
+			<h1 class="site-title ir"><?php bloginfo('name', 'Display')?></h1>
 			<?php wp_nav_menu( array( 
 				'theme_location' => 'primary', 
 				'container' => 'nav'
