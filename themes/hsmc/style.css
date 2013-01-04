@@ -209,6 +209,8 @@ h2,
 
 .btn-primary{
     background: #9c3169;
+    box-sizing: border-box;
+    width: 100%;
     display: block;
     font-size: 23px;
     font-weight: bold;
@@ -233,7 +235,7 @@ h2,
     content: '';
     width: 20px;
     background: url(img/btn-assets.png) -342px -36px no-repeat transparent;
-    padding-right: 40px;
+    padding-right: 32px;
 }
 
 .btn-secondary{
@@ -574,7 +576,7 @@ header .inner{
 }
 
 /***********************
- * Docotors
+ * Doctors
  ************************/
 
 article.hospital-short,
@@ -647,12 +649,8 @@ button{
     box-sizing: border-box;
 }
 
-input:disabled{
+.booking-form-field:disabled{
     background: #eee;
-}
-
-.booking-form input[type="text"]{
-    line-height: 2em;
 }
 
 .booking-form .btn-primary{
@@ -665,11 +663,23 @@ input:disabled{
 }
 
 .booking-form-field{
+    font-family: sans-serif;
+    font-weight: normal;
+    line-height: 2em;
+    height: 30px;
     display: block;
     margin: 4px 0 1em;
     box-sizing: border-box;
     width: 100%;
     border: 1px solid #bbb;
+}
+
+.cico-thanks{
+    margin-top: 0;
+}
+
+.contact-error{
+    display: block;
 }
 
 /***********************

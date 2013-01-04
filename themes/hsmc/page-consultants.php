@@ -11,7 +11,7 @@ get_header(); ?>
 
 <div class="hero">
 	<div class="inner">
-		<h2 class="h1">Our Doctors</h2>
+		<h2 class="h1">Our Consultants</h2>
 		<p class="intro">
 			Lorem ipsum dolor sit amet, consectetur adipisicing eli Lorem ipsum 
 			dolor sit amet, consectetur adipisicing sit amet, consectetur 
@@ -21,7 +21,7 @@ get_header(); ?>
 </div>
 <div class="content "> 
 	<section class="inner clearfix">
-		<h1>Doctors</h1>
+		<h1>Consultants</h1>
 		<ul class="plain inline doc-list">
 		<?php
 			$docs = get_users(array('role' => 'doctor'));

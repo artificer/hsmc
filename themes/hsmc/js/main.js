@@ -7,17 +7,24 @@ jQuery(document).ready(function(){
 		Shadowbox.init({
 			skipSetup: true
 		});
+
+		// $(CiCo.formSelector).citrusform();
 		$bookingForm = $body.find('.booking-form-wrap').detach();
 		$body.on('click', '.btn-booking', function(evt){
 			evt.preventDefault();
-			console.log('booking now');
 
 			Shadowbox.open({
 				content: $bookingForm.html(),
 				player: 'html',
-				title: "Book Clinician",
+				title: "Book Consultant",
 				width: 350,
-				height: 500
+				height: 550,
+				options: {
+					onFinish: function(el){
+						$(CiCo.formSelector).citrusform();
+					},
+					enableKeys: false
+				}
 			});
 		});
 	}else if($body.hasClass('single-hospital')){
@@ -87,8 +94,6 @@ $.widget('cmist.filmslide', {
 		clearTimeout(this._timeoutID);
 		$slide = $(evt.currentTarget).closest(this.options.slides).addClass('active');
 		$caption = $slide.find('.slide-caption').removeClass('hidden');
-
-
 	},
 	closeProfile: function(evt){
 		$closeBtn = $(evt.currentTarget);

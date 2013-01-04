@@ -58,7 +58,6 @@
 						)
 					);
 					$posts = get_posts($args);
-					Debug_Bar_Extender::instance()->trace_var( $posts);
 					foreach ($posts as $post) :  
 						setup_postdata($post); 
 						$custom = get_post_custom(get_the_ID());
@@ -86,20 +85,22 @@
 		</div>
 	</div> <!-- end of .inner -->
 	<div class="booking-form-wrap hidden">
-		<form method="post" action id="bookingForm" class="booking-form">
+		<form method="post" action id="frmContact" class="booking-form">
 			<div class="err-box"></div>
-			<label for="userName" class="h3">Clinican’s Name</label>
-			<input name="userName" id="userName" type="text"  class="booking-form-field" value="<?php echo esc_html($clinician->display_name)?>" disabled />
+			<span class="h3">Consultant’s Name</label>
+			<div class="booking-form-field" disabled> <?php echo esc_html($clinician->display_name) ?> </div>
 			<label for="contactName" class="h3">Your Name</label>
 			<input name="contactName" id="contactName" class="booking-form-field" type="text" placeholder="e.g. Jane Doe" required>
 			<label for="contactEmail" class="h3">Your Email</label>
-			<input name="contactEmail" id="contactEmail" class="booking-form-field" type="text" placeholder="something@example.com" required>
+			<input name="email" id="contactEmail" class="booking-form-field" type="text" placeholder="something@example.com" required>
 			<label for="message" class="h3">Your Enquiry</label>
-			<textarea class="booking-form-field" id="message" name="message"></textarea>
+			<textarea class="booking-form-field" id="message" name="comments" required></textarea>
 			<label class="visuallyhidden" for="checking">If you want to submit this form, do not enter anything in this field</label>
+			<input type="hidden" name="userName" value="<?php echo esc_attr($clinician->display_name)?>" />
 			<input id="checking" class="visuallyhidden" type="text" value="" name="checking">
 			<input id="submitted" type="hidden" name="submitted">
-			<input type="submit" name="submit" value="Submit" class="btn-primary"/>
+			<?php wp_nonce_field(wp_get_theme()->Name,'cico_nonce'); ?>
+			<button type="submit" name="submit" class="btn-primary cico-submit">Send Enquiry</button>
 		</form>
 	</div>
 </div>

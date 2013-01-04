@@ -473,17 +473,6 @@ add_filter( 'admin_footer_text', 'my_admin_footer_text' );
 function my_admin_footer_text( $default_text ) {
      return '<span id="footer-thankyou">Website managed by <a href="http://thebigagency.net">The BiG Agency</a><span> | Powered by <a href="http://www.wordpress.org">WordPress</a>';
 }
-
-function new_wp_login_url() {
-    echo bloginfo('url');
-}
-
-function new_wp_login_title() {
-    echo 'Powered by ' . get_option('blogname');
-}
-
-add_filter('login_headerurl', 'new_wp_login_url');
-add_filter('login_headertitle', 'new_wp_login_title');
 /** END REBRAND WP LOGIN **/
 
 function log_me($message) {
