@@ -41,7 +41,7 @@ get_header(); ?>
 		</div>
 
 		<div class="sidebar right-col col-wrap"> 
-			<section class="clearfix">
+			<section class="clearfix col-inner">
 				<h1>Categories</h1>
 				<ul class="plain">
 					<?php 

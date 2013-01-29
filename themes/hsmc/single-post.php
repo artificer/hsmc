@@ -33,7 +33,7 @@ get_header(); ?>
 		</div>
 
 		<aside class="sidebar right-col col-wrap"> 
-			<section class="author-credit clearfix">
+			<section class="author-credit clearfix col-inner">
 				<?php 
 					$data = get_user_meta( get_the_author_meta('ID'));
 					$profile_url = get_author_posts_url(get_the_author_meta('ID'));
@@ -51,11 +51,11 @@ get_header(); ?>
 						
 							<p><?php echo $data['description'][0]?></p>
 						</div>
-						<a href="<?php echo $profile_url  ?>" class="btn-secondary">View Profile</a>
+						<a href="<?php echo $profile_url  ?>" class="btn-teritary">View Profile</a>
 					</div>
 				</div>
 			</section>
-			<section>
+			<section class="col-inner">
 				<h1>Categories</h1>
 				<?php the_category() ?>
 			</section>
