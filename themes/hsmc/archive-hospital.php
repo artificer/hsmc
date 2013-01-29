@@ -29,18 +29,20 @@ get_header(); ?>
 
 		<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 			<article <?php post_class('hospital-short media') ?> >
-				<a href="<?php the_permalink() ?>" class="img">
-					<?php the_post_thumbnail('index-thumb' , array('class' => 'thumb')) ?>
-				</a>
-				
-				<div class="bd">
-					<div class="bd-mask">
-						<h2>
-							<a href="<?php the_permalink() ?>"><?php the_title() ?></a>
-						</h2>
-						<?php the_excerpt(); ?>
+				<div class="media-wrap clearfix">
+					<a href="<?php the_permalink() ?>" class="img">
+						<?php the_post_thumbnail('index-thumb' , array('class' => 'thumb')) ?>
+					</a>
+					
+					<div class="bd">
+						<div class="bd-mask">
+							<h2>
+								<a href="<?php the_permalink() ?>"><?php the_title() ?></a>
+							</h2>
+							<?php the_excerpt(); ?>
+						</div>
+						<a class="btn-secondary" href="<?php the_permalink() ?>">Read more</a>
 					</div>
-					<a class="btn-secondary" href="<?php the_permalink() ?>">Read more</a>
 				</div>
 
 			</article>
