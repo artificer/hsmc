@@ -15,44 +15,44 @@
 
 get_header(); ?>
 <div class="slider hero">
-	<?php
-		$docs = get_users(array(
-			'role' => 'doctor'
-		));
-		$mids = get_users(array(
-			'role' => 'midwife'
-		));
+	<div class="inner">
+		<?php
+			$docs = get_users(array(
+				'role' => 'doctor'
+			));
+			$mids = get_users(array(
+				'role' => 'midwife'
+			));
 
-		$staff = array_merge($docs, $mids);
-		shuffle($staff);
-		foreach ($staff as $clinician):
-			$data = get_user_meta($clinician->ID);
-			$role = array_keys(unserialize($data['wp_capabilities'][0]));
-			// Debug_Bar_Extender::instance()->trace_var($data);
-			// Debug_Bar_Extender::instance()->trace_var($role);
-	?>
-	<div class="slide">
-		<h2><?php echo $clinician->display_name ?></h2>
-		<img src="<?php echo esc_attr($data['userpic'][0])?>" alt="Portriat of <?php echo esc_attr($clinician->display_name)?>"/>
-		<div class="slide-caption hidden">
-			<h3 class="h2">
-				<?php echo esc_attr($clinician->display_name)?>
-				<span class="slide-caption-close"></span>
-			</h3>
-			<div class="slide-caption-body">
-				<h4>About the <?php echo $role[0]?>:</h4>
-				<p><?php echo limit_words($data['description'][0], 25)?></p>
-				<a class="btn-teritary" href="<?php echo get_author_posts_url($clinician->ID)?>">
-					View <?php echo $role[0]?> profile
-				</a>
+			$staff = array_merge($docs, $mids);
+			shuffle($staff);
+			foreach ($staff as $clinician):
+				$data = get_user_meta($clinician->ID);
+				$role = array_keys(unserialize($data['wp_capabilities'][0]));
+				// Debug_Bar_Extender::instance()->trace_var($data);
+				// Debug_Bar_Extender::instance()->trace_var($role);
+		?>
+		<div class="slide">
+			<h2><?php echo $clinician->display_name ?></h2>
+			<img class="slide-img" src="<?php echo esc_attr($data['userpic'][0])?>" alt="Portriat of <?php echo esc_attr($clinician->display_name)?>"/>
+			<div class="slide-caption hidden">
+				<h3 class="h2">
+					<?php echo esc_attr($clinician->display_name)?>
+					<span class="slide-caption-close"></span>
+				</h3>
+				<div class="slide-caption-body">
+					<h4>About the <?php echo $role[0]?>:</h4>
+					<p><?php echo limit_words($data['description'][0], 25)?></p>
+					<a class="btn-teritary" href="<?php echo get_author_posts_url($clinician->ID)?>">
+						View <?php echo $role[0]?> profile
+					</a>
+				</div>
 			</div>
 		</div>
+		<?php 
+			endforeach;
+		?>
 	</div>
-	<?php 
-		endforeach;
-	?>
-	<span class="slider-next">next</span>
-	<span class="slider-prev">prev</span>
 </div>
 <div class="services clearfix">
 	<section class="inner">
@@ -62,7 +62,7 @@ get_header(); ?>
 		</p>
 		<div class="service">
 			<img  class="service-thumb" src="<?php echo get_bloginfo('template_url')?>/img/rooms.jpg"/>
-			<h2>Our Rooms</h2>
+			<h2>Our Group</h2>
 			<p>
 				The Harley Maternity Group is a dedicated team of private consultants 
 				working together to provide the best in private maternity care.
@@ -78,7 +78,7 @@ get_header(); ?>
 		</div>
 		<div class="service">
 			<img class="service-thumb" src="<?php echo get_bloginfo('template_url')?>/img/doctors.jpg"/>
-			<h2><a href="<?php echo site_url('/doctors')?>">Our Doctors</a></h2>
+			<h2><a href="<?php echo site_url('/doctors')?>">Our Services</a></h2>
 			<p>
 				The Harley Maternity Group is a dedicated team of private consultants 
 				working together to provide the best in private maternity care.
