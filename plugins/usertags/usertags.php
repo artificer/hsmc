@@ -17,6 +17,7 @@ class User_Tags{
 		add_action( 'add_meta_boxes', array( &$this, 'user_tag_meta_box'));
 		add_action( 'admin_enqueue_scripts', array( &$this, 'enqueue_usertags_scripts' ), 10);
 		add_action( 'save_post', array(&$this,'save_user_tags'));
+		// add_action( 'user_register', array(&$this, 'set_user_level'), 10, 1 );
     }
 
     function activate() {
@@ -32,8 +33,12 @@ class User_Tags{
 			'upload_files' 			 => true
 		);
 
-		$doctor = add_role( 'doctor', 'Doctor', $caps);
-		$midwife = add_role( 'midwife', 'Midwife', $caps);
+		$author_caps = get_role( 'author' );
+
+		$author_caps->capabilities['upload_files'] = false;
+
+		$doctor = add_role( 'doctor', 'Doctor', $author_caps->capabilities);
+		$midwife = add_role( 'midwife', 'Midwife', $author_caps->capabilities);
 	} // end activate
 
 	function deactivate() {
@@ -43,7 +48,23 @@ class User_Tags{
 	} // end deactivate
 
 	function user_tag_meta_box(){
-	  add_meta_box("userTags", "User Tags", array(&$this, "render_meta_box"), "hospital", "normal", "low");
+		// log_me(get_editable_roles());
+		add_meta_box("userTags", "User Tags", array(&$this, "render_meta_box"), "hospital", "normal", "low");
+	}
+
+	function set_user_level($user_id){
+		get_users( array(
+			'include'	=> array($user_id)	
+		) );
+
+		$data = get_user_meta($user_id);
+		$role = array_keys(unserialize($data['wp_capabilities'][0]));
+
+		if( in_array( $role[0], array('doctor','midwife') ) ){
+			log_me('updating user level');
+			update_user_meta($user_id, 'user_level', '2');
+		}
+		// log_me($role);
 	}
 
 	function enqueue_usertags_scripts($handle){
@@ -62,7 +83,6 @@ class User_Tags{
 
 	function render_meta_box($the_post){
 		$custom = get_post_custom($the_post->ID);
-		log_me($custom);
   		$user_tags = isset($custom['user_tags']) ? unserialize($custom['user_tags'][0]) : array();
 		// log_me($user_tags);
 
