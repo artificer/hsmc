@@ -1,16 +1,19 @@
 <?php 
 	global $clinician;
 	global $data;
-	$user_tmonial =  (isset($data['usertmonial'][0])) ? unserialize($data['usertmonial'][0]) : null;
+	$user_tmonial = (isset($data['usertmonial'][0])) ? unserialize($data['usertmonial'][0]) : null;
+	Debug_Bar_Extender::instance()->trace_var($user_tmonial);
 ?>
 
 <div class="hero">
 	<div class="inner">
 		<img class="profile-pic" src="<?php echo esc_attr($data['userpic'][0])?>" alt="Portriat of <?php echo esc_attr($clinician->display_name)?>" />
+		<?php if ($user_tmonial['text'] != null && $user_tmonial['text'] != '' ): ?>
 		<p class="quote">
 			<?php echo esc_html($user_tmonial['text'])?> 
 			<span class="source">– <?php echo esc_html($user_tmonial['source']) ?></span>
 		</p>
+		<?php endif; ?>
 	</div>
 </div>
 
@@ -33,19 +36,18 @@
 		</div>
 		<div class="right-col">
 			<div class="col-wrap">
-				<section class="author-profile">
+				<section class="author-profile col-inner">
 					<h1><?php echo $clinician->display_name ?></h1>
 					<div class="author-desc">
 						<?php echo apply_filters('the_content', $data['description'][0])?>
 					</div>
 					<a class="btn-primary btn-booking" href="javascript:void(0)">Book now</a>
 				</section>
-				<section class="">
-					<h1> Fees / Availability </h1>
-				</section>
 			</div>
 			<section class="hospital">
-				<h1 class="h2"><?php echo esc_html($clinician->display_name)?> is available at:</h1>
+				<h1 class="h2">
+					<?php echo esc_html($clinician->display_name)?> is available at
+				:</h1>
 				<?php 
 					$args = array(
 						'post_type' => 'hospital',
@@ -64,15 +66,17 @@
   						$location = isset($custom['location']) ? unserialize($custom['location'][0]) : array();
 				?>
 				<div class="media">
-					<a class="img" href="<?php the_permalink()?>">
-						<?php the_post_thumbnail('index-thumb' , array('class' => 'thumb')) ?>
-					</a>
-					<div class="bd">
-						<h2>
-							<a href="<?php the_permalink() ?>"><?php the_title() ?></a>
-						</h2>
-						<p><?php echo isset($location['address']) ? nl2br($location['address']) : '' ?></p>
-						<a class="btn-secondary" href="<?php the_permalink() ?>">View hospital</a>
+					<div class="media-wrap clearfix">
+						<a class="img" href="<?php the_permalink()?>">
+							<?php the_post_thumbnail('index-thumb' , array('class' => 'thumb')) ?>
+						</a>
+						<div class="bd">
+							<h2>
+								<a href="<?php the_permalink() ?>"><?php the_title() ?></a>
+							</h2>
+							<p><?php echo isset($location['address']) ? nl2br($location['address']) : '' ?></p>
+							<a class="btn-secondary" href="<?php the_permalink() ?>">View hospital</a>
+						</div>
 					</div>
 				</div>
 
