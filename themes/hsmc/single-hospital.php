@@ -9,7 +9,11 @@
  * @since HSMC 0.1
  */
 
-get_header(); ?>
+get_header(); 
+$custom = get_post_custom(get_the_ID());
+$location = isset($custom['location']) ? unserialize($custom['location'][0]) : array();
+$docs = isset($custom['user_tags']) ? unserialize($custom['user_tags'][0]) : array();
+?>
 <div class="hero">
 	<div class="inner">
 		<h2 class="h1">Our Hospitals</h2>
@@ -21,7 +25,40 @@ get_header(); ?>
 		<div class="left-col"> 
 			<h1><?php the_title() ?></h1>
 			<?php the_post_thumbnail('article-hero' , array('class' => 'hero-img')) ?>
-			<?php the_content() ?>
+			<div class="article-content">
+				<?php the_content() ?>
+			</div>
+
+			<section>
+				<h1 class="h2">Consultants at this hospital</h1>
+				
+				<ul class="plain inline doc-list--short clearfix">
+				<?php
+					$docs = get_users(array('role' => 'doctor'));
+					foreach ($docs as $doc):
+						$data = get_user_meta($doc->ID);
+						$profile_url = get_author_posts_url($doc->ID);
+				?>
+					<li class="media">
+						<div class="media-wrap clearfix">
+							<a href="<?php echo $profile_url  ?>" class="img">
+								<img src="<?php echo esc_attr($data['userpic'][0])?>" alt="Portriat of <?php echo esc_attr($doc->display_name)?>" class="thumb"/>
+							</a>
+							<div class="bd">
+								<div class="bd-mask">
+									<h2>
+										<a href="<?php echo $profile_url ?>"><?php echo $doc->display_name ?></a>
+									</h2>
+								
+									<p><?php echo $data['description'][0]?></p>
+								</div>
+								<a href="<?php echo $profile_url  ?>" class="btn-teritary">View Profile</a>
+							</div>
+						</div>
+					</li>
+				<?php endforeach; ?>
+				</ul>
+			</section>
 		</div>
 
 		<aside class="sidebar right-col col-wrap"> 
@@ -38,12 +75,10 @@ get_header(); ?>
 
 				<?php endforeach; endif; ?>
 			</section>
-			<section class="location">
+			<section class="location col-inner">
 				<h1>Location</h1>
-				<?php 
-					$custom = get_post_custom(get_the_ID());
-  					$location = isset($custom['location']) ? unserialize($custom['location'][0]) : array();
-  					echo isset(var) ? $location['map'] : '';
+				<?php 					
+  					echo (isset($location['map']) ? $location['map'] : '');
 				?>
 				<h2>Address</h2>
 				<div>
