@@ -7,13 +7,18 @@
       </div>
     </div>
     <div class="sign-off">
-      <div class="inner">
+      <div class="inner  clearfix">
         <div class="colophon">&copy; All Rights Reserved</div>
         <ul class="social-btns inline">
-          <li>Facebook</li>
-          <li>Twitter</li>
-          <li>RSS</li>
-          <li>???</li>
+          <li>
+            <a href="http://www.facebook.com/harleymaternitygroup">Facebook</a>
+          </li>
+          <li>
+            <a href="http://twitter.com/PrivateMaternityCare">Twitter</a> 
+          </li>
+          <li>
+            <a href="<php home_url('/feed')?>">RSS</a>
+          </li>
         </li>
       </div>
     </div>
