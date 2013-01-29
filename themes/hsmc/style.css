@@ -175,6 +175,10 @@ h2,
     letter-spacing: -1px;
     word-spacing: 0;
 }
+/*
+.h2{
+    margin: 0 0 0.83em;
+}*/
 
 .intro{
     font-size: 24px;
@@ -190,7 +194,7 @@ h2,
     color: #fff;
     text-indent: 21px;
     text-shadow: 0 2px 2px rgba(0, 0 ,0 , 0.2);
-    margin: -30px 0 22px;
+    margin: -30px 0 22px -22px;
     padding: 0;
 }
 
@@ -208,7 +212,7 @@ h2,
   ***************/
 
 .btn-primary{
-    background: #9c3169;
+    background: #ad1061;
     box-sizing: border-box;
     width: 100%;
     display: block;
@@ -291,7 +295,7 @@ a.btn-primary:visited{
 }
 
 a, a:hover, a:visited{
-    color: #b5236f;
+    color: #ad1061;
     text-decoration: none;
 }
 
@@ -373,7 +377,7 @@ header .inner{
 .current-menu-item:after {
     content: '';
     display: block;
-    background: #b5236f;
+    background: #ad1061;
     height: 8px;
     margin: 1px 0 0;
 } 
@@ -388,6 +392,7 @@ header .inner{
 .widget-wrap{
     background: #fff;
     padding: 38px 0 0 0;
+    overflow: auto;
 }
 
 .sign-off:before{
@@ -418,8 +423,12 @@ header .inner{
     float: right;
 }
 
+.social-btns li{
+    margin: 0 0 0 10px;
+}
+
 .hero{
-    background: #4fa8cc url(img/hero-bg.jpg) 0 50% no-repeat;
+    background: #4fa8cc url(img/hero-bg.jpg) 50% 50% no-repeat;
     height: 335px;
     overflow: hidden;
     padding: 80px 0 0 0;
@@ -442,7 +451,7 @@ header .inner{
 }
 
 .left-col section{
-    border-top: 3px solid #b5236f;
+    border-top: 3px solid #ad1061;
     margin: 0 0 38px 0;
 }
 
@@ -450,10 +459,14 @@ header .inner{
     background-color: #fff;
     color: #474747;
     color: #333;
-    padding: 0 6px;
+    /*padding: 0 6px;*/
     -webkit-box-shadow: 0 -0 4px rgba(0, 0, 0, 0.16);
        -moz-box-shadow: 0 -0 4px rgba(0, 0, 0, 0.16);
             box-shadow: 0 -0 4px rgba(0, 0, 0, 0.16);
+}
+
+.col-inner{
+    padding: 0 8px;
 }
 
 .sidebar section{
@@ -484,16 +497,30 @@ header .inner{
     color: #fff;
     line-height: 1;
     -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
             border-radius: 4px;
+
+     -webkit-box-shadow: 0 2px 0 rgba(70, 7, 53, 0.9);
+       -moz-box-shadow: 0 2px 0 rgba(70, 7, 53, 0.9);
+            box-shadow: 0 2px 0 rgba(70, 7, 53, 0.9);
 }
 
 .btn-big:before{
-    background:  transparent url(img/btn-assets.png) -439px -22px no-repeat;
+    background: transparent url(img/btn-assets.png) -439px -13px no-repeat;
     content: '';
     float: left;
     padding: 0 17px 0 0;
     width: 70px;
     height: 73px;
+    margin: -11px 0 0 0;
+}
+
+.btn-booking{
+    margin: 0 0 10px 0;
+}
+
+.media-wrap{
+    position: relative;
 }
 
 .media .img{
@@ -513,7 +540,8 @@ header .inner{
     margin: 0 0 0 238px;
 }
 
-.media h2{
+.media h2,
+.media .h2{
     margin-top: 0;
 }
 
@@ -522,12 +550,22 @@ header .inner{
     overflow: hidden;
 }
 
+.media .btn-secondary{
+    position: absolute;
+    bottom: 3px;
+}
+
 /***************************
  * Home Page
  **************************/
 
+.hero.slider{
+    padding-top: 65px;
+    height: 395px;
+}
+
 .services{
-    border-top: 3px solid #B5236F;
+    border-top: 3px solid #ad1061;
     position: relative;
     background: #dce7ec;
     padding: 0 0 22px 0;
@@ -542,6 +580,18 @@ header .inner{
     float: left;
     width: 300px;
     margin: 0 0 0 25px;
+}
+
+
+
+.service h2{
+    margin-top: 14px
+    font-size: 1.5rem;
+    margin-bottom: 0;
+}
+
+.service p{
+    margin-top: 7px;
 }
 
 .service-thumb{
@@ -562,7 +612,7 @@ header .inner{
 }
 
 .home .right-col{
-    margin: 0;
+    margin: -27px 0 0;
     width: 460px;
 }
 
@@ -627,6 +677,12 @@ article.hospital-short,
     width: 476px;
 }
 
+.author-profile{
+    margin-top: -1px;
+    padding-top: 1px;
+    overflow: auto;
+}
+
 .author-desc{
     background: #f5f5f5;
     padding: 0 4px;
@@ -686,6 +742,7 @@ button{
  * Hospital Index page 
  ***********************/
 
+.doctors .hero,
 .hospitals .hero{
     height: 163px;
 }
@@ -709,12 +766,6 @@ article.hospital-short{
     border-bottom: none;
 }
 
-
-.hospital .col-wrap{
-    padding: 0;
-    margin: -140px 0 0 0;    
-}
-
 aside .inner{
     padding: 0 6px;
 }
@@ -734,18 +785,52 @@ aside .inner{
             box-shadow: 0 -0 4px rgba(0, 0, 0, 0.16);
 }
 
-.location h1,
-.location h2{
-    margin-left: 8px;
-}
-
+.contact iframe,
 .location iframe{
-    margin: 0 0 0 8px;
     padding: 6px;
     background: #fff;
     -webkit-box-shadow: 0 -0 4px rgba(0, 0, 0, 0.16);
        -moz-box-shadow: 0 -0 4px rgba(0, 0, 0, 0.16);
             box-shadow: 0 -0 4px rgba(0, 0, 0, 0.16);   
+}
+
+
+.article-content{
+    margin: 0 0 45px;
+}
+
+.doc-list--short{
+    width: 610px;
+}
+
+.doc-list--short > li{
+    margin: 0 10px 14px 0;
+    width: 290px;
+}
+
+.doc-list--short .img{
+    height: 138px;
+    overflow: hidden;
+}
+
+.doc-list--short .thumb{
+    width: 118px;
+    /*height: 138px;    */
+}
+
+.doc-list--short .bd-mask{
+    height: 113px;
+}
+
+.doc-list--short .bd{
+    margin: 0 0 0 137px;
+    font-size: 12px;
+    line-height: 16px;
+}
+
+.doc-list--short .btn-teritary{
+    position: absolute;
+    bottom: 2px;
 }
 
 
@@ -802,6 +887,64 @@ aside .inner{
 }
 
 
+/******************
+ * Author Page
+ ******************/
+
+.map{
+    margin: 25px 0 0 0;
+}
+
+h3, 
+.h3{
+    margin-bottom: 0;
+}
+
+.h3 + p{
+    margin-top: 0
+}
+
+.contact .hero{
+    height: 215px;
+}
+
+/*.contact .vcard{
+    float: left;
+    width: 150px;
+}
+*/
+
+.contact .vcard{
+    margin: 0 0 19px 0;
+    padding: 0 0 19px 0;
+    border-bottom: 1px solid #bbb;
+}
+
+.contact .booking-form{
+    background: transparent;
+}
+
+
+/*  ========================================
+    Default Page template
+    ========================================*/
+
+.page-standard .hero{
+    min-height: 130px;
+    height: auto;
+}
+
+.page-standard .hero-img{
+    margin-top: 25px;
+}
+
+.page-standard .right-col{
+    margin: 25px 0 0;
+}
+
+
+
+
 /* ===================================================
    Homepage slider
    Author: Milos (Citrus Mist);
@@ -813,21 +956,82 @@ aside .inner{
     /*overflow-x: hidden;*/
 }
 
-.slide{
-    position: absolute;
-    left: 9999px;
-    width: 320px;
+.slider .inner{
+    position: relative;
 }
 
-.slide img{
-    cursor: pointer;
+.slide{
+    position: absolute;
+    /*left: 9999px;*/
+    width: 480px;
+    /*float: left;*/
+    left: 480px;
+    /*overflow: hidden;*/
+    /*max-height: 0;*/
+    opacity: 0;
+    height: 456px;
+    -webkit-transition: max-height 1.2s ease-out 0.6s, opacity 1.4s ease-out 0.6s, left 1.2s ease-out 0.8s;
+    -moz-transition: max-height 1.2s ease-out 0.6s, opacity 1.4s ease-out 0.6s, left 1.2s ease-out 0.8s;
+    -ms-transition: max-height 1.2s ease-out 0.6s, opacity 1.4s ease-out 0.6s, left 1.2s ease-out 0.8s;
+    -o-transition: max-height 1.2s ease-out 0.6s, opacity 1.4s ease-out 0.6s, left 1.2s ease-out 0.8s;
+    transition: max-height 1.2s ease-out 0.6s, opacity 1.4s ease-out 0.6s, left 1.2s ease-out 0.8s;
+}
+
+.slide-mask{
+    width: 100%;
+    max-height: 0;
+    height: 0;
+    overflow: hidden;
+    opacity: 0;
+    /*position: absolute;
+    bottom: 0;*/
+    -webkit-transition: max-height 1.4s ease-out 2s, opacity 1.8s ease-out 2s, height 1.4s ease-out 2s;
+       -moz-transition: max-height 1.4s ease-out 2s, opacity 1.8s ease-out 2s, height 1.4s ease-out 2s;
+        -ms-transition: max-height 1.4s ease-out 2s, opacity 1.8s ease-out 2s, height 1.4s ease-out 2s;
+         -o-transition: max-height 1.4s ease-out 2s, opacity 1.8s ease-out 2s, height 1.4s ease-out 2s;
+            transition: max-height 1.4s ease-out 2s, opacity 1.8s ease-out 2s, height 1.4s ease-out 2s;   
+}
+
+.cmist-softslide-bottomcrop .slide-mask,
+.cmist-softslide-bottom .slide-mask{
+    position: absolute;
+    bottom: 0;
+}
+
+.cmist-softslide-loaded .slide-mask{
+    height: 400px;
+    max-height: 400px;
+    opacity: 1;
+}
+
+.cmist-softslide-loaded .slide{
+    opacity: 1;
+}
+
+.cmist-softslide-active .slide{
+    -webkit-transition:  opacity 1s ease-out 0s;
+    -moz-transition:  opacity 1s ease-out 0s;
+    -ms-transition:  opacity 1s ease-out 0s;
+    -o-transition:  opacity 1s ease-out 0s;
+    transition:  opacity 1s ease-out 0s;   
+
+}
+
+.cmist-softslide-active .slide:not(.active){
+    opacity: 0.4;
+}
+
+
+.slide-mask--crop{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
 .slide h2{
     text-align: center;
 }
-
-.slide.arrive{
+/*.slide.arrive{
     -webkit-transition: left 1s ease-out 0.3s;
        -moz-transition: left 1s ease-out 0.3s;
         -ms-transition: left 1s ease-out 0.3s;
@@ -836,21 +1040,21 @@ aside .inner{
 }
 
 .slide.leave{
-    /*left: -9999px;*/
     -webkit-transition: left 1s ease-in 0.3s;
        -moz-transition: left 1s ease-in 0.3s;
         -ms-transition: left 1s ease-in 0.3s;
          -o-transition: left 1s ease-in 0.3s;
             transition: left 1s ease-in 0.3s;
 }
-
-.slide > img{
+*/
+.slide-img{
+    cursor: pointer;
     width: 100%;
 }
 
 .slide-caption{
     background: #fff;
-    background: rgba(255,255,255, 0.75);
+    background: rgba(255,255,255, 0.8);
     width: 258px;
     padding: 1px 1px 0.65em 1px;
     position: absolute;
@@ -899,6 +1103,384 @@ aside .inner{
 .slider-prev{
     cursor: pointer;
 }
+
+
+/* =======================================
+ * Animations
+ * =======================================*/
+
+/*
+Animate.css - http://daneden.me/animate
+LICENSED UNDER THE  MIT LICENSE (MIT)
+
+Copyright (c) 2012 Dan Eden
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+.animated {
+    -webkit-animation-fill-mode: both;
+    -moz-animation-fill-mode: both;
+    -ms-animation-fill-mode: both;
+    -o-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-duration: 1s;
+    -moz-animation-duration: 1s;
+    -ms-animation-duration: 1s;
+    -o-animation-duration: 1s;
+    animation-duration: 1s;
+}
+
+.animated.hinge {
+    -webkit-animation-duration: 2s;
+    -moz-animation-duration: 2s;
+    -ms-animation-duration: 2s;
+    -o-animation-duration: 2s;
+    animation-duration: 2s;
+}
+
+@-webkit-keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateY(-20px);
+    }
+    
+    100% {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+    }
+}
+
+@-moz-keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        -moz-transform: translateY(-20px);
+    }
+    
+    100% {
+        opacity: 1;
+        -moz-transform: translateY(0);
+    }
+}
+
+@-o-keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        -ms-transform: translateY(-20px);
+    }
+    
+    100% {
+        opacity: 1;
+        -ms-transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fadeInDown {
+    -webkit-animation-name: fadeInDown;
+    -moz-animation-name: fadeInDown;
+    -o-animation-name: fadeInDown;
+    animation-name: fadeInDown;
+}
+@-webkit-keyframes fadeOutDown {
+    0% {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+    }
+    
+    100% {
+        opacity: 0;
+        -webkit-transform: translateY(20px);
+    }
+}
+
+@-moz-keyframes fadeOutDown {
+    0% {
+        opacity: 1;
+        -moz-transform: translateY(0);
+    }
+    
+    100% {
+        opacity: 0;
+        -moz-transform: translateY(20px);
+    }
+}
+
+@-o-keyframes fadeOutDown {
+    0% {
+        opacity: 1;
+        -o-transform: translateY(0);
+    }
+    
+    100% {
+        opacity: 0;
+        -o-transform: translateY(20px);
+    }
+}
+
+@keyframes fadeOutDown {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    100% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
+
+.fadeOutDown {
+    -webkit-animation-name: fadeOutDown;
+    -moz-animation-name: fadeOutDown;
+    -o-animation-name: fadeOutDown;
+    animation-name: fadeOutDown;
+}
+@-webkit-keyframes bounceIn {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(.3);
+    }
+    
+    50% {
+        opacity: 1;
+        -webkit-transform: scale(1.05);
+    }
+    
+    70% {
+        -webkit-transform: scale(.9);
+    }
+    
+    100% {
+        -webkit-transform: scale(1);
+    }
+}
+
+@-moz-keyframes bounceIn {
+    0% {
+        opacity: 0;
+        -moz-transform: scale(.3);
+    }
+    
+    50% {
+        opacity: 1;
+        -moz-transform: scale(1.05);
+    }
+    
+    70% {
+        -moz-transform: scale(.9);
+    }
+    
+    100% {
+        -moz-transform: scale(1);
+    }
+}
+
+@-o-keyframes bounceIn {
+    0% {
+        opacity: 0;
+        -o-transform: scale(.3);
+    }
+    
+    50% {
+        opacity: 1;
+        -o-transform: scale(1.05);
+    }
+    
+    70% {
+        -o-transform: scale(.9);
+    }
+    
+    100% {
+        -o-transform: scale(1);
+    }
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(.3);
+    }
+    
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    
+    70% {
+        transform: scale(.9);
+    }
+    
+    100% {
+        transform: scale(1);
+    }
+}
+
+.bounceIn {
+    -webkit-animation-name: bounceIn;
+    -moz-animation-name: bounceIn;
+    -o-animation-name: bounceIn;
+    animation-name: bounceIn;
+}
+@-webkit-keyframes bounceOut {
+    0% {
+        -webkit-transform: scale(1);
+    }
+    
+    25% {
+        -webkit-transform: scale(.95);
+    }
+    
+    50% {
+        opacity: 1;
+        -webkit-transform: scale(1.1);
+    }
+    
+    100% {
+        opacity: 0;
+        -webkit-transform: scale(.3);
+    }   
+}
+
+@-moz-keyframes bounceOut {
+    0% {
+        -moz-transform: scale(1);
+    }
+    
+    25% {
+        -moz-transform: scale(.95);
+    }
+    
+    50% {
+        opacity: 1;
+        -moz-transform: scale(1.1);
+    }
+    
+    100% {
+        opacity: 0;
+        -moz-transform: scale(.3);
+    }   
+}
+
+@-o-keyframes bounceOut {
+    0% {
+        -o-transform: scale(1);
+    }
+    
+    25% {
+        -o-transform: scale(.95);
+    }
+    
+    50% {
+        opacity: 1;
+        -o-transform: scale(1.1);
+    }
+    
+    100% {
+        opacity: 0;
+        -o-transform: scale(.3);
+    }   
+}
+
+@keyframes bounceOut {
+    0% {
+        transform: scale(1);
+    }
+    
+    25% {
+        transform: scale(.95);
+    }
+    
+    50% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+    
+    100% {
+        opacity: 0;
+        transform: scale(.3);
+    }   
+}
+
+.bounceOut {
+    -webkit-animation-name: bounceOut;
+    -moz-animation-name: bounceOut;
+    -o-animation-name: bounceOut;
+    animation-name: bounceOut;
+}
+
+@-webkit-keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+    }
+}
+
+@-moz-keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        -moz-transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        -moz-transform: translateY(0);
+    }
+}
+
+@-o-keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        -o-transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        -o-transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fadeInUp {
+    -webkit-animation-name: fadeInUp;
+    -moz-animation-name: fadeInUp;
+    -o-animation-name: fadeInUp;
+    animation-name: fadeInUp;
+}
+
+
+
 
 
 /* ==========================================================================
