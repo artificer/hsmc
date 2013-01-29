@@ -1,8 +1,8 @@
 jQuery(document).ready(function(){
 	$body = $('body');
 
-	if($body.hasClass('home')){
-		$body.find('.slider').filmslide();
+	if($body.hasClass('home') || $body.hasClass('about')){
+		$body.find('.slider').softslide();
 	}else if($body.hasClass('author')){
 		Shadowbox.init({
 			skipSetup: true
@@ -13,7 +13,7 @@ jQuery(document).ready(function(){
 		$body.on('click', '.btn-booking', function(evt){
 			evt.preventDefault();
 
-			Shadowbox.open({
+			var sb = Shadowbox.open({
 				content: $bookingForm.html(),
 				player: 'html',
 				title: "Book Consultant",
@@ -27,27 +27,34 @@ jQuery(document).ready(function(){
 				}
 			});
 		});
-	}else if($body.hasClass('single-hospital')){
+	}else if($body.hasClass('single-hospital') || $body.hasClass('rooms')){
 		Shadowbox.init();
+		console.log('shadow');
 	}
-
 });
 
 (function($){
-$.widget('cmist.filmslide', {
+
+$.fn.redraw = function(){
+	$(this).each(function(){ var redraw = this.offsetHeight; });
+	return this;
+};
+
+$.widget('cmist.softslide', {
 	_create: function(){
 		var self = this;
 		this._slides = this.element.find(self.options.slides);
+		this._captions = $('body').find('.slider-captions')
+							.find('.slide-caption');
 		/**
 		 * TODO: adjust the _leftBoundary value when the browser is resized
 		 */
 		this._leftBoundary = $(self.options.frame).first().offset().left;
 
-
 		this.element
-			.on('click', '.slider-prev', $.proxy(this.prev, this))
-			.on('click', '.slider-next', $.proxy(this.next, this))
-			.on('click', '.slide img', $.proxy(this.showProfile, this))
+			.on('click', '.slide img', $.proxy(this.showProfile, this));
+		
+		this._captions
 			.on('click', '.slide-caption-close', $.proxy(this.closeProfile, this));
 
 		this.element
@@ -55,207 +62,103 @@ $.widget('cmist.filmslide', {
 			.imagesLoaded($.proxy(this.start, this));
 	},
 	start: function(){
-		this._queue = this._slides;
-		this.next();
-	},
-	next: function(evt){
-		if(evt) clearTimeout(this._timeoutID);
+		var slideWdth = this._slides.first().outerWidth(true);
+		var classes = this.widgetBaseClass + '-loaded ' + this.widgetBaseClass + '-' + this.options.slideDirection;
 
-		if(this._viewNo > 0){
-			this.element
-				.one('transitionend.leave webkitTransitionEnd.leave', this._currentSlides.last(), $.proxy(this._arrive, this));
-			this._leave();
-		} else{
-			this._arrive();
+		if(Modernizr.csstransitions){
+			console.log('in transit baby');
 		}
 
-		this._timeoutID = setTimeout($.proxy(this.next, this), this.options.interval);
-	},
-	prev: function(evt){
-		clearTimeout(this._timeoutID);
-		//not sure if this is right way to go about it
-		//probably should be able to look at previous if viewNo == 0
-		console.log('previous');
-		if(this._viewNo === 0)
-			return false;
-		
-		this.element.one(
-				'transitionend.leave webkitTransitionEnd.leave',
-				this._currentSlides.last(),
-				{ 'reverse': true },
-				$.proxy(this._arrive, this)
-			);
-		this._leave(true);
-
-		this._timeoutID = setTimeout($.proxy(this.next, this), this.options.interval);
-	},
-	showProfile: function(evt){
-		console.log("showing profile");
-		clearTimeout(this._timeoutID);
-		$slide = $(evt.currentTarget).closest(this.options.slides).addClass('active');
-		$caption = $slide.find('.slide-caption').removeClass('hidden');
-	},
-	closeProfile: function(evt){
-		$closeBtn = $(evt.currentTarget);
-		$caption = $closeBtn.closest('.slide-caption').addClass('hidden');
-		$caption.closest(this.options.slides).removeClass('active');
-
-		//if there are no more open captions restart slider
-		if(this.element.find('.active').size() === 0)
-			this.next();
-	},
-	_leave: function(reverse){
-		reverse = typeof reverse !== 'undefined' ? reverse : false;
-		var self = this, slideOffset = 0;
-
-		//reverse flow
-		if(reverse){
-			var slides = $(this._currentSlides.get().reverse())
-				.removeClass('arrive')
-				.addClass('leave')
-				.css({
-					'-webkit-transition-delay' : '',
-					'-moz-transition-delay' : '',
-					'transition-delay' : ''
-				})
-				.each(function(i){
-					var delay = i * parseFloat($(this).css('transition-delay').replace('s',''));
-					$(this).css({
-						'-webkit-transition-delay' : delay + 's',
-						'-moz-transition-delay' : delay + 's',
-						'transition-delay' : delay + 's',
-						left : ''
-					});
-				});
-				
-			this._queue = this._queue.add(slides);
-			return true;
-		}
-
-		//normal flow
-		if(this._queue.length === 0){
-			//reset queue
-			this.element.off('transitionend.leave webkitTransitionEnd.leave');
-			this.element
-				.one('transitionend.leave webkitTransitionEnd.leave', this._currentSlides.last(), $.proxy(function(evt){
-					this._slides
-						.css({
-							'display': 'none',
-							'left': '',
-							'-webkit-transition-delay' : '',
-							'-moz-transition-delay' : '',
-							'transition-delay' : ''
-							// '-webkit-transition-duration': '0s'
-						})
-						.removeClass('leave arrive')
-						.css({
-							'display': ''
-							// '-webkit-transition-duration': ''
-						});
-
-					console.log('resetting queue' + this._slides.first().css('left'));
-					this._queue = this._slides;
-					this._viewNo = 0;
-					this._dequeue = null;
-					this._currentSlides = null;
-
-					clearTimeout(this._timeoutID);
-					this._arrive();
-					this._timeoutID = setTimeout($.proxy(this.next, this), this.options.interval);
-				},this));
-		}
-
-		this._currentSlides
-			.removeClass('arrive')
-			.addClass('leave')
+		this._slides
+			.find('.slide-img')
+				.wrap('<div class="slide-mask"/>')
+			.end()
+			.redraw()
 			.css({
-				'-webkit-transition-delay' : '',
-				'-moz-transition-delay' : '',
-				'transition-delay' : ''
-			}).each(function(i){
-				//calculate delay based on the slides position in the dom
-				var delay = i * parseFloat($(this).css('transition-delay').replace('s',''));
-				$(this).css({
-					'-webkit-transition-delay' : delay + 's',
-					'-moz-transition-delay' : delay + 's',
-					'transition-delay' : delay + 's',
-					'left' : -9999
-				});
-				slideOffset = $(this).outerWidth(true);
+				'left': function(index, value){
+					console.log('setting left');
+					return index * parseInt(value, 10);
+				}
 			});
 
-		if(this._dequeue === null){
-			this._dequeue =	this._currentSlides;
-		} else{
-			this._dequeue = this._dequeue.add( this._currentSlides );
+		if(this.options.slideDirection == 'bottomcrop'){
+			this._slides
+				.find('.slide-img')
+					.wrap('<div class="slide-mask--crop"/>');
+		}
+
+		//trigger the introductory transitions
+		this.element
+			.addClass(classes);
+	},
+	reset: function(){
+		console.log('reset');
+
+		this._slides
+			.find('.slide-img')
+				.unwrap()
+			.end()
+			.css({'left': ''});
+
+		if(this.options.slideDirection == 'bottomcrop'){
+			this._slides
+				.find('.slide-img')
+					.unwrap();
+		}
+
+		//trigger the introductory transitions
+		this.element
+			.removeClass(this.widgetBaseClass + '-loaded')
+			.removeClass(this.widgetBaseClass + '-' + this.options.slideDirection);
+	},
+	showProfile: function(evt){
+		var $slide = $(evt.currentTarget)
+					.closest(this.options.slides)
+					.addClass('active');
+
+		var offset = $slide.offset();
+
+		console.log("showing profile");
+		// $slide = $(evt.currentTarget).closest(this.options.slides).addClass('active');
+		// $caption = $slide.find('.slide-caption').removeClass('hidden');
+		$caption = this._captions
+					.filter('[data-slide='+ $slide.attr('id') +']')
+					.css({
+						'left' : offset.left + 120,
+						'top'  : offset.top	+ 260
+					})
+					.removeClass('hidden')
+					.addClass('fadeInUp');
+
+		this.element.addClass(this.widgetBaseClass + '-active');
+	},
+	closeProfile: function(evt){
+		console.log('closing');
+		$closeBtn = $(evt.currentTarget);	
+
+		$caption = $closeBtn.closest('.slide-caption')
+					.removeClass('fadeInUp')
+					.addClass('fadeOutDown');
+					
+		$caption.one('webkitAnimationEnd animationend oAnimationEnd MSAnimationEnd', function(event) {
+			$(event.target).addClass('hidden')
+				.removeClass('fadeOutDown')
+				.css({
+					'left' : '',
+					'top'  : ''
+				});
+		});
+
+		this.element.find('#' + $caption.data('slide')).removeClass('active');
+
+		if(this.element.find('.active').size() === 0){
+			this.element.removeClass(this.widgetBaseClass + '-active');
 		}
 	},
-	_arrive: function(evt, reverse){
-		if (evt != null){
-			reverse = typeof evt.data.reverse != 'undefined' ? evt.data.reverse : false;
-		}
-
-		var self = this, slideOffset = 0;
-		console.log('arriving' + reverse);
-		console.log(reverse);
-
-
-		if(reverse){
-			this._viewNo--;
-			console.log(this._dequeue.get().reverse());
-			// this._currentSlides = $(this._dequeue.get().reverse())
-			this._currentSlides = $(this._dequeue)
-									.filter(':nth-child(-n+'+this.options.slidesPerView*this._viewNo+')')
-									.removeClass('leave')
-									.addClass('arrive')
-									.css({
-										'-webkit-transition-delay' : '',
-										'-moz-transition-delay' : '',
-										'transition-delay' : ''
-									})
-									.each(function(i){
-										//calculate delay based on the slides position in the dom
-										var delay = (self.options.slidesPerView - i -1 )* parseFloat($(this).css('transition-delay').replace('s',''));
-
-										$(this).css({
-											'-webkit-transition-delay' : delay + 's',
-											'-moz-transition-delay' : delay + 's',
-											'transition-delay' : delay + 's',
-											'left' : self._leftBoundary + (i*slideOffset)
-										});
-										slideOffset = $(this).outerWidth(true);
-									});
-
-			this._dequeue = this._dequeue.not(this._currentSlides);
-			return true;
-		}
-
-		this._viewNo++;
-		this._currentSlides = this._queue
-								.filter(':nth-child(-n+'+this.options.slidesPerView*this._viewNo+')')
-								.addClass('arrive')
-								.each(function(i){
-									console.log($(this).css('transition-delay'));
-									//calculate delay based on the slides position in the dom
-									// var delay = i * parseFloat($(this).css('transition-delay').replace('s',''));
-									var delay = i * self.options.delay/1000;
-									$(this).css({
-										'-webkit-transition-delay' : delay + 's',
-										'-moz-transition-delay' : delay + 's',
-										'transition-delay' : delay + 's',
-										'left' : self._leftBoundary + (i*slideOffset)
-									});
-									slideOffset = $(this).outerWidth(true);
-								});
-			
-		this._queue = this._queue.not(this._currentSlides);
-	},
+	_captions: null,
 	_slides: null,
-	_currentSlides: null,
-	_queue: null,
-	_dequeue: null,
+	_currentSlide: null,
 	_leftBoundary: 0,
-	_viewNo: 0,
 	_timeoutID: null,
 	_setOption: function(key, value){
 		// switch(key){
@@ -264,8 +167,8 @@ $.widget('cmist.filmslide', {
 		// }
 		this.options[key] = value;
 		// In jQuery UI 1.8, you have to manually invoke the _setOption method from the base widget
-		// $.Widget.prototype._setOption.apply( this, arguments );
-		this._super( "_setOption", key, value);
+		$.Widget.prototype._setOption.apply( this, arguments );
+		// this._super( "_setOption", key, value);
 		// In jQuery UI 1.9 and above, you use the _super method instead
 		// this._super( "_setOption", key, value );
 	},
@@ -275,15 +178,13 @@ $.widget('cmist.filmslide', {
 	},
 	options:{
 		slides: '.slide',
-		interval: 5000,
-		duration: 1000,
-		delay: 300,
+		slideDirection: 'bottom',
 		frame: '.inner',
-		slidesPerView: 3
+		slidesPerView: 2
 	}
 });
 
-$.extend($.cmist.filmslide, {
+$.extend($.cmist.softslide, {
   version: "0.1"
 });
 })(this.jQuery);
