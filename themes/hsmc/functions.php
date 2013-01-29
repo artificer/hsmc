@@ -130,13 +130,23 @@ add_action( 'init', 'create_post_type' );
 
 function my_class_names($classes) {
 	// add 'class-name' to the $classes array
-	if(is_page('hospital') || is_post_type_archive('hospital'))
+	if (is_page('hospital') || is_post_type_archive('hospital'))
 		$classes[] = 'hospitals';
 	elseif(is_singular('post'))
 		$classes[] = 'blog';
 	elseif (is_page('consultants')) 
 		$classes[] = 'doctors';
-		
+	elseif (is_page('contact')) 
+		$classes[] = 'contact';
+	elseif (is_page('rooms')) 
+		$classes[] = 'rooms';
+	elseif (is_page('about'))
+		$classes[] = 'about';
+
+
+	if(is_page() && !is_front_page() && !is_page('about')){
+		$classes[] = 'page-standard';
+	}
 	// return the $classes array
 	return $classes;
 }
@@ -307,7 +317,8 @@ function hsmc_user_profile($user) {
 	$userpic_url = get_the_author_meta('userpic', $user->ID);
 	$uservid_code = get_the_author_meta('uservid', $user->ID );
 	$user_tmonial = get_the_author_meta('usertmonial', $user->ID);
-	log_me($user_tmonial);
+	// log_me('user_level:');
+	// log_me( get_the_author_meta('user_level', $user->ID) );
     ?>
     <h3>User Media</h3>
     <table class="form-table">
@@ -340,13 +351,14 @@ function hsmc_user_profile($user) {
     		<tr>
 	    		<th><label for="userpic">Testimonial</label></th>
 	    		<td>
-	    			<textarea name="usertmonial[text]" id="usertmonial_text" rows="5" cols="30"><?php echo esc_textarea( $user_tmonial['text']); ?></textarea>
+	    			<textarea name="usertmonial[text]" id="usertmonial_text" rows="5" cols="30"><?php echo ( isset($user_tmonial['text']) ? esc_textarea($user_tmonial['text']) : '' ); ?></textarea>
 	    		</td>
     		</tr>
     		<tr>
     			<th><label for="userpic">Testimonial Source</label></th>
     			<td>
-    				<input type="text" name="usertmonial[source]" id="usertmonial_source" value="<?php echo esc_attr($user_tmonial['source']) ?>" />
+    				<input type="text" name="usertmonial[source]" id="usertmonial_source"
+    					value="<?php echo (isset($user_tmonial['source']) ? esc_attr($user_tmonial['source']) : '') ?>" />
 	    		</td>
     		</tr>
 	    </tbody>
@@ -362,10 +374,6 @@ add_action('show_user_profile','hsmc_user_profile');
  * @uses hsmc_delete_image() To delete the image from the WP database and
  */
 function hsmc_save_extra_profile_fields( $user_id ) {
-	// Debug_Bar_Extender::instance()->checkpoint('Saving Profile');
-	// Debug_Bar_Extender::instance()->trace_var($_POST);
-	// log_me($_POST);
-	
 	$userpic_url = $_POST['userpic'];
 	$delete_img = $_POST['submit'] == "Remove Image" ? true : false;
 	if ($delete_img) {
@@ -376,6 +384,15 @@ function hsmc_save_extra_profile_fields( $user_id ) {
 	if ( !current_user_can( 'edit_user', $user_id ) )
 		return false;
 	/* Copy and paste this line for additional fields. Make sure to change 'uservid' to the field ID. */
+
+	// global $wpdb;
+	// $data = get_user_meta($user_id);
+	// $role = array_keys(unserialize($data['wp_capabilities'][0]));
+	// if( in_array( $role[0], array('doctor','midwife') ) ){
+	// 	log_me('setting user level');
+	// 	update_user_meta($user_id, $wpdb->prefix.'user_level', 2);
+	// }
+	// log_me($role);
 
 	update_user_meta($user_id, 'uservid', $_POST['uservid']);
 	update_user_meta($user_id, 'userpic', $userpic_url);
@@ -424,6 +441,24 @@ function replace_thickbox_text($translated_text, $text, $domain) {
 }
 
 
+function hsmc_slide_caption($title, $body, $id, $url, $label = ''){
+	$html = '
+		<div class="slide-caption animated hidden" data-slide="'.$id.'">
+			<h3 class="h2">
+				'.$title.'
+				<span class="slide-caption-close"></span>
+			</h3>
+			<div class="slide-caption-body">
+				<h4>About the '.$label.':</h4>
+				<p>'.$body.'</p>
+				<a class="btn-teritary" href="'.$url.'">
+					View '.$label.' profile
+				</a>
+			</div>
+		</div>';
+	return $html;
+}
+
 // function hsmc_options_validate( $input ) {
 // 	$default_options = hsmc_get_default_options();
 // 	$valid_input = $default_options;
@@ -437,6 +472,7 @@ function replace_thickbox_text($translated_text, $text, $domain) {
 // }
 function my_admin_head() {
         echo '<link rel="stylesheet" type="text/css" href="' .get_template_directory_uri(). '/wp-admin.css">';
+
 }
 add_action('admin_head', 'my_admin_head');
  
