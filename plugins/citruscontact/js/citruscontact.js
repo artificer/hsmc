@@ -56,6 +56,7 @@ $.widget( 'ui.citrusform', {
         dataType: 'json',
         success: function(response){
           $('.cico-thanks, .contact-error').remove();
+          self._trigger('ajaxsuccess');
 
           if (response.success){
             $('<p class="cico-thanks">Thank you for getting in contact with us. We\'ll be in touch shortly.</p>')
